@@ -136,8 +136,8 @@ export function AuthShell({
         <div className="absolute bottom-0 right-0 size-[420px] rounded-full bg-brand-glow opacity-30 blur-3xl" />
         <div className="relative p-10 h-full flex flex-col">
           <Link to="/" className="flex items-center gap-2">
-            <div className="size-8 rounded-lg gradient-brand grid place-items-center shadow-glow">
-              <Sparkles className="size-4 text-white" />
+            <div className="size-8 rounded-lg overflow-hidden shadow-glow shrink-0">
+              <img src="/founder-bot.jpg" alt="FoundrAI" className="size-full object-cover" />
             </div>
             <span className="font-display text-lg font-semibold">FoundrAI</span>
           </Link>
@@ -155,8 +155,8 @@ export function AuthShell({
       <div className="flex items-center justify-center p-6 md:p-10">
         <div className="w-full max-w-sm">
           <Link to="/" className="lg:hidden flex items-center gap-2 mb-8">
-            <div className="size-8 rounded-lg gradient-brand grid place-items-center">
-              <Sparkles className="size-4 text-white" />
+            <div className="size-8 rounded-lg overflow-hidden shadow-glow shrink-0">
+              <img src="/founder-bot.jpg" alt="FoundrAI" className="size-full object-cover" />
             </div>
             <span className="font-display text-lg font-semibold">FoundrAI</span>
           </Link>

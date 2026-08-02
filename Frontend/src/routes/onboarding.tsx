@@ -32,7 +32,9 @@ function Onboarding() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 size-[700px] rounded-full bg-primary/15 blur-[140px]" />
       <div className="relative w-full max-w-lg">
         <div className="flex items-center gap-2 mb-6 justify-center">
-          <div className="size-8 rounded-lg gradient-brand grid place-items-center shadow-glow"><Sparkles className="size-4 text-white" /></div>
+          <div className="size-8 rounded-lg overflow-hidden shadow-glow shrink-0">
+            <img src="/founder-bot.jpg" alt="FoundrAI" className="size-full object-cover" />
+          </div>
           <span className="font-display font-semibold text-lg">FoundrAI</span>
         </div>
         <div className="mb-3 flex items-center justify-between text-xs text-muted-foreground">

@@ -24,8 +24,8 @@ export function PublicNav() {
     <header className="fixed top-0 inset-x-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/60">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center gap-8">
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <div className="size-8 rounded-lg gradient-brand grid place-items-center shadow-glow">
-            <Sparkles className="size-4 text-white" />
+          <div className="size-8 rounded-lg overflow-hidden shadow-glow shrink-0">
+            <img src="/founder-bot.jpg" alt="FoundrAI" className="size-full object-cover" />
           </div>
           <span className="font-display text-base font-semibold tracking-tight">FoundrAI</span>
           <span className="hidden lg:inline-flex ml-1 text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">Beta</span>
@@ -78,7 +78,9 @@ export function PublicFooter() {
       <div className="max-w-7xl mx-auto px-6 py-14 grid md:grid-cols-4 gap-8">
         <div>
           <Link to="/" className="flex items-center gap-2">
-            <div className="size-7 rounded-md gradient-brand grid place-items-center"><Sparkles className="size-3.5 text-white" /></div>
+            <div className="size-7 rounded-md overflow-hidden shadow-glow shrink-0">
+              <img src="/founder-bot.jpg" alt="FoundrAI" className="size-full object-cover" />
+            </div>
             <span className="font-display font-semibold">FoundrAI</span>
           </Link>
           <p className="text-sm text-muted-foreground mt-3 max-w-xs">The AI-native workspace for founders. Turn an idea into a company, module by module.</p>

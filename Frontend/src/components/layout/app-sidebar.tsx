@@ -51,8 +51,8 @@ export function AppSidebar() {
     <aside className="hidden md:flex flex-col w-64 shrink-0 border-r border-sidebar-border bg-sidebar text-sidebar-foreground h-screen sticky top-0">
       <div className="p-4">
         <Link to="/" className="flex items-center gap-2">
-          <div className="size-8 rounded-lg gradient-brand grid place-items-center shadow-glow">
-            <Sparkles className="size-4 text-white" />
+          <div className="size-8 rounded-lg overflow-hidden shadow-glow shrink-0">
+            <img src="/founder-bot.jpg" alt="FoundrAI" className="size-full object-cover" />
           </div>
           <div className="font-display text-lg font-semibold tracking-tight">FoundrAI</div>
         </Link>

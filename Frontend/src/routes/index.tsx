@@ -50,8 +50,8 @@ function TopNav() {
     <header className="fixed top-0 inset-x-0 z-40 backdrop-blur-xl bg-background/60 border-b border-border/60">
       <div className="max-w-7xl mx-auto px-6 h-14 flex items-center gap-8">
         <Link to="/" className="flex items-center gap-2">
-          <div className="size-7 rounded-md gradient-brand grid place-items-center shadow-glow">
-            <Sparkles className="size-3.5 text-white" />
+          <div className="size-7 rounded-md overflow-hidden shadow-glow shrink-0">
+            <img src="/founder-bot.jpg" alt="FoundrAI" className="size-full object-cover" />
           </div>
           <span className="font-display text-base font-semibold">FoundrAI</span>
         </Link>
