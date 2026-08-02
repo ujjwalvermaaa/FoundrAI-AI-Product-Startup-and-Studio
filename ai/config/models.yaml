@@ -1,0 +1,33 @@
+# FoundrAI — LLM model configuration
+# All agents resolve their model through model_factory.py → this config
+
+defaults:
+  provider: ollama
+  base_url: "${OLLAMA_BASE_URL:-http://localhost:11434}"
+  temperature: 0.3
+  top_p: 0.9
+  top_k: 40
+  max_tokens: 1024
+  request_timeout: 300  # seconds per request — tuned for qwen3:4b on Apple M1
+  context_length: 4096
+
+models:
+  # Primary generation model
+  qwen3_8b:
+    name: qwen3:8b
+    provider: ollama
+    context_length: 4096
+    capabilities: [chat, generate, json]
+    recommended_for: [generation, repair, reflection]
+
+  # Fallback / lighter model (if available)
+  qwen3_4b:
+    name: qwen3:4b
+    provider: ollama
+    context_length: 4096
+    capabilities: [chat, generate, json]
+    recommended_for: [generation, repair, reflection, classification]
+    note: "Default model — good balance of speed/quality on M1 (5.3GB VRAM)"
+
+# Default model used when no agent-specific override exists
+default_model: qwen3_4b

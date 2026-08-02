@@ -1,0 +1,51 @@
+# FoundrAI — Per-agent model configuration
+# max_tokens tuned for qwen3:4b on Apple M1 — keep responses concise and fast.
+
+agents:
+  idea_validator:
+    model: qwen3_4b
+    temperature: 0.3
+    max_tokens: 1024
+    description: "Validates startup idea, produces validation_report"
+
+  market_researcher:
+    model: qwen3_4b
+    temperature: 0.4
+    max_tokens: 1024
+    description: "Researches market, produces market_analysis"
+
+  business_modeler:
+    model: qwen3_4b
+    temperature: 0.3
+    max_tokens: 1024
+    description: "Builds business model canvas"
+
+  product_strategist:
+    model: qwen3_4b
+    temperature: 0.4
+    max_tokens: 1024
+    description: "Creates product roadmap"
+
+  technical_architect:
+    model: qwen3_4b
+    temperature: 0.2
+    max_tokens: 1024
+    description: "Designs technical architecture"
+
+  financial_analyst:
+    model: qwen3_4b
+    temperature: 0.2
+    max_tokens: 1024
+    description: "Builds financial model and projections"
+
+  marketing_strategist:
+    model: qwen3_4b
+    temperature: 0.4
+    max_tokens: 1024
+    description: "Creates go-to-market strategy"
+
+  investor_writer:
+    model: qwen3_4b
+    temperature: 0.4
+    max_tokens: 1024
+    description: "Drafts investor deck outline"

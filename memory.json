@@ -1,0 +1,328 @@
+{
+  "_readme": "This file is the single source of truth for the FoundrAI dev environment. Read this first when resuming work in any IDE or new session. Keep it updated as the project evolves.",
+  "last_updated": "2025-07-31",
+  "project": {
+    "name": "FoundrAI",
+    "description": "AI-powered SaaS that transforms startup ideas into validated business plans via multi-agent workflows",
+    "root_path": "/Users/ujjwal/Desktop/FoundrAI",
+    "spec_path": "/Users/ujjwal/Desktop/FoundrAI/.plan/specs/foundrai-v1-implementation",
+    "progress_file": "/Users/ujjwal/Desktop/FoundrAI/progress.json",
+    "tasks_file": "/Users/ujjwal/Desktop/FoundrAI/.plan/specs/foundrai-v1-implementation/tasks.md",
+    "design_file": "/Users/ujjwal/Desktop/FoundrAI/.plan/specs/foundrai-v1-implementation/design.md",
+    "requirements_file": "/Users/ujjwal/Desktop/FoundrAI/.plan/specs/foundrai-v1-implementation/requirements.md"
+  },
+  "current_status": {
+    "last_completed_task": 48,
+    "next_task": null,
+    "current_wave": 21,
+    "phase": "phase_5_hardening_ship",
+    "overall_completion_pct": 100,
+    "summary": "ALL 48 TASKS COMPLETE. Full FoundrAI v1 implementation done. Tasks 38-48 completed 2025-07-31: graph factory + workflow wire-up, guardrails, frontend workflow UI, export service, audit logs, health endpoints, full test suite (400 tests), frontend polish, Docker production setup, documentation (README/SETUP.md/AGENTS.md), and AI evaluation suite (24 cases, 100% schema valid rate). Project is production-ready."
+  },
+  "system": {
+    "os": "macOS 26.5 (Sequoia)",
+    "arch": "arm64 (Apple Silicon)",
+    "username": "ujjwal",
+    "home": "/Users/ujjwal"
+  },
+  "database": {
+    "engine": "PostgreSQL",
+    "version": "17.5",
+    "install_type": "EDB Installer (not Homebrew)",
+    "install_path": "/Library/PostgreSQL/17",
+    "bin_path": "/Library/PostgreSQL/17/bin",
+    "data_dir": "/Library/PostgreSQL/17/data",
+    "socket": "/tmp/.s.PGSQL.5432",
+    "host": "localhost",
+    "port": 5432,
+    "superuser": "postgres",
+    "app_user": "foundrai",
+    "app_password": "foundrai_dev",
+    "app_database": "foundrai",
+    "encoding": "UTF8",
+    "collation": "C",
+    "connection_url": "postgresql+asyncpg://foundrai:foundrai_dev@localhost:5432/foundrai",
+    "started_by": "launchd (auto-starts on boot)",
+    "note": "Port 5432 is occupied by this EDB instance. Docker postgres in docker-compose.yml uses port 5433 to avoid conflict.",
+    "current_tables": [
+      "alembic_version",
+      "users",
+      "refresh_tokens",
+      "projects",
+      "project_modules",
+      "artifacts",
+      "artifact_versions",
+      "workflow_runs",
+      "workflow_steps",
+      "agent_executions",
+      "memory_chunks",
+      "knowledge_documents",
+      "audit_logs"
+    ],
+    "alembic": {
+      "current_revision": "008",
+      "head": "008",
+      "migration_history": [
+        {
+          "rev": "001",
+          "desc": "pgcrypto + uuid-ossp extensions"
+        },
+        {
+          "rev": "002",
+          "desc": "users + refresh_tokens tables"
+        },
+        {
+          "rev": "003",
+          "desc": "projects + project_modules tables"
+        },
+        {
+          "rev": "004",
+          "desc": "artifacts + artifact_versions tables"
+        },
+        {
+          "rev": "005",
+          "desc": "workflow_runs + workflow_steps + agent_executions"
+        },
+        {
+          "rev": "006",
+          "desc": "memory_chunks + knowledge_documents"
+        },
+        {
+          "rev": "007",
+          "desc": "audit_logs table"
+        },
+        {
+          "rev": "008",
+          "desc": "7 performance indexes"
+        }
+      ],
+      "ini_path": "/Users/ujjwal/Desktop/FoundrAI/backend/alembic.ini",
+      "versions_dir": "/Users/ujjwal/Desktop/FoundrAI/backend/alembic/versions",
+      "env_py": "/Users/ujjwal/Desktop/FoundrAI/backend/alembic/env.py",
+      "run_command": "cd /Users/ujjwal/Desktop/FoundrAI/backend && /Users/ujjwal/.local/bin/poetry run alembic upgrade head"
+    }
+  },
+  "backend": {
+    "path": "/Users/ujjwal/Desktop/FoundrAI/backend",
+    "language": "Python",
+    "python_version": "3.12",
+    "python_binary": "/Users/ujjwal/.pyenv/shims/python3",
+    "actual_python_version_on_system": "3.11.9",
+    "framework": "FastAPI 0.115+",
+    "package_manager": "Poetry 2.4.1",
+    "poetry_binary": "/Users/ujjwal/.local/bin/poetry",
+    "virtualenv_path": "/Users/ujjwal/Library/Caches/pypoetry/virtualenvs/foundrai-backend-FB0kxthW-py3.12",
+    "pyproject_toml": "/Users/ujjwal/Desktop/FoundrAI/backend/pyproject.toml",
+    "env_file": "/Users/ujjwal/Desktop/FoundrAI/backend/.env",
+    "main_entry": "/Users/ujjwal/Desktop/FoundrAI/backend/app/main.py",
+    "config_file": "/Users/ujjwal/Desktop/FoundrAI/backend/app/core/config.py",
+    "db_base": "/Users/ujjwal/Desktop/FoundrAI/backend/app/database/base.py",
+    "db_session": "/Users/ujjwal/Desktop/FoundrAI/backend/app/database/session.py",
+    "start_command": "cd /Users/ujjwal/Desktop/FoundrAI/backend && /Users/ujjwal/.local/bin/poetry run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000",
+    "api_base_url": "http://localhost:8000/api/v1",
+    "health_url": "http://localhost:8000/health",
+    "key_dependencies": {
+      "fastapi": "^0.115.0",
+      "sqlalchemy": "^2.0.0 (async)",
+      "asyncpg": "^0.30.0",
+      "alembic": "^1.14.0",
+      "pydantic": "^2.9.0",
+      "pydantic-settings": "^2.5.0",
+      "python-jose": "^3.3.0",
+      "passlib[bcrypt]": "^1.7.4",
+      "langchain": "^0.3.0",
+      "langgraph": "^0.2.0",
+      "sentence-transformers": "^3.3.0",
+      "faiss-cpu": "^1.9.0"
+    }
+  },
+  "frontend": {
+    "path": "/Users/ujjwal/Desktop/FoundrAI/Frontend",
+    "note": "Directory is 'Frontend' (capital F) — not 'frontend'",
+    "framework": "Next.js 15.1.0",
+    "react_version": "19.0.0",
+    "language": "TypeScript (strict)",
+    "router": "App Router",
+    "styling": "Tailwind CSS v3 + shadcn/ui (new-york theme)",
+    "package_manager": "bun 1.3.14",
+    "node_version": "v22.16.0",
+    "package_json": "/Users/ujjwal/Desktop/FoundrAI/Frontend/package.json",
+    "tsconfig": "/Users/ujjwal/Desktop/FoundrAI/Frontend/tsconfig.json",
+    "env_file": "/Users/ujjwal/Desktop/FoundrAI/Frontend/.env.local",
+    "start_command": "cd /Users/ujjwal/Desktop/FoundrAI/Frontend && bun dev",
+    "app_url": "http://localhost:3000",
+    "key_dependencies": {
+      "next": "15.1.0",
+      "react": "19.0.0",
+      "@tanstack/react-query": "v5",
+      "framer-motion": "v11",
+      "zod": "v3",
+      "zustand": "v5",
+      "shadcn/ui": "new-york theme"
+    },
+    "route_groups": [
+      "(auth)",
+      "(dashboard)"
+    ],
+    "build_status": "clean — 12 routes, 0 tsc errors"
+  },
+  "docker": {
+    "compose_file": "/Users/ujjwal/Desktop/FoundrAI/docker-compose.yml",
+    "prod_compose_file": "/Users/ujjwal/Desktop/FoundrAI/docker-compose.prod.yml",
+    "postgres_service": {
+      "image": "postgres:16-alpine",
+      "container_name": "foundrai-postgres",
+      "host_port": 5433,
+      "container_port": 5432,
+      "note": "Port 5433 on host to avoid conflict with the EDB PostgreSQL 17 running on 5432"
+    },
+    "note": "Docker postgres is NOT used for development. Homebrew/EDB postgres on :5432 is used instead."
+  },
+  "tooling": {
+    "poetry": {
+      "version": "2.4.1",
+      "binary": "/Users/ujjwal/.local/bin/poetry"
+    },
+    "python": {
+      "version": "3.11.9 (system) / 3.12 (pyproject target)",
+      "pyenv_shim": "/Users/ujjwal/.pyenv/shims/python3"
+    },
+    "node": {
+      "version": "v22.16.0"
+    },
+    "bun": {
+      "version": "1.3.14",
+      "used_for": "Frontend package manager and dev server"
+    },
+    "homebrew_postgres": {
+      "version": "16.14",
+      "binary": "/opt/homebrew/bin/postgres",
+      "note": "Installed but NOT the running instance. EDB PostgreSQL 17 at /Library/PostgreSQL/17 is what's active."
+    }
+  },
+  "environment_files": {
+    "root_env_example": "/Users/ujjwal/Desktop/FoundrAI/.env.example",
+    "backend_env": "/Users/ujjwal/Desktop/FoundrAI/backend/.env",
+    "frontend_env_local": "/Users/ujjwal/Desktop/FoundrAI/Frontend/.env.local",
+    "frontend_env_example": "/Users/ujjwal/Desktop/FoundrAI/Frontend/.env.example"
+  },
+  "key_env_vars": {
+    "DATABASE_URL": "postgresql+asyncpg://foundrai:foundrai_dev@localhost:5432/foundrai",
+    "APP_ENV": "development",
+    "BACKEND_PORT": 8000,
+    "FRONTEND_URL": "http://localhost:3000",
+    "NEXT_PUBLIC_API_URL": "http://localhost:8000/api/v1",
+    "JWT_ALGORITHM": "HS256",
+    "JWT_ACCESS_TOKEN_EXPIRE_MINUTES": 15,
+    "JWT_REFRESH_TOKEN_EXPIRE_DAYS": 7,
+    "OLLAMA_BASE_URL": "http://localhost:11434",
+    "OLLAMA_MODEL": "qwen3:4b",
+    "EMBEDDING_MODEL": "BAAI/bge-base-en-v1.5"
+  },
+  "important_paths": {
+    "project_root": "/Users/ujjwal/Desktop/FoundrAI",
+    "backend": "/Users/ujjwal/Desktop/FoundrAI/backend",
+    "frontend": "/Users/ujjwal/Desktop/FoundrAI/Frontend",
+    "ai": "/Users/ujjwal/Desktop/FoundrAI/ai",
+    "data": "/Users/ujjwal/Desktop/FoundrAI/data",
+    "docker": "/Users/ujjwal/Desktop/FoundrAI/docker",
+    "scripts": "/Users/ujjwal/Desktop/FoundrAI/scripts",
+    "docs": "/Users/ujjwal/Desktop/FoundrAI/Docs",
+    "alembic_versions": "/Users/ujjwal/Desktop/FoundrAI/backend/alembic/versions",
+    "backend_app": "/Users/ujjwal/Desktop/FoundrAI/backend/app",
+    "backend_tests": "/Users/ujjwal/Desktop/FoundrAI/backend/tests"
+  },
+  "quick_start_commands": {
+    "start_backend": "cd /Users/ujjwal/Desktop/FoundrAI/backend && /Users/ujjwal/.local/bin/poetry run uvicorn app.main:app --reload --port 8000",
+    "start_frontend": "cd /Users/ujjwal/Desktop/FoundrAI/Frontend && bun dev",
+    "run_migrations": "cd /Users/ujjwal/Desktop/FoundrAI/backend && /Users/ujjwal/.local/bin/poetry run alembic upgrade head",
+    "rollback_migrations": "cd /Users/ujjwal/Desktop/FoundrAI/backend && /Users/ujjwal/.local/bin/poetry run alembic downgrade base",
+    "check_migration_status": "cd /Users/ujjwal/Desktop/FoundrAI/backend && /Users/ujjwal/.local/bin/poetry run alembic current",
+    "test_db_connection": "cd /Users/ujjwal/Desktop/FoundrAI/backend && /Users/ujjwal/.local/bin/poetry run python -c \"import asyncio; from app.database.session import check_db_connection; asyncio.run(check_db_connection()); print('DB OK')\"",
+    "run_backend_tests": "cd /Users/ujjwal/Desktop/FoundrAI/backend && /Users/ujjwal/.local/bin/poetry run pytest tests/ -v",
+    "run_frontend_tests": "cd /Users/ujjwal/Desktop/FoundrAI/Frontend && bun test --run",
+    "open_psql": "psql -U postgres -d foundrai",
+    "install_backend_deps": "cd /Users/ujjwal/Desktop/FoundrAI/backend && /Users/ujjwal/.local/bin/poetry install",
+    "install_frontend_deps": "cd /Users/ujjwal/Desktop/FoundrAI/Frontend && bun install"
+  },
+  "ci": {
+    "platform": "GitHub Actions",
+    "workflow_file": "/Users/ujjwal/Desktop/FoundrAI/.github/workflows/ci.yml",
+    "triggers": [
+      "push to main",
+      "push to develop",
+      "pull_request to main",
+      "pull_request to develop"
+    ],
+    "jobs": [
+      "lint-backend (ruff)",
+      "typecheck-backend (mypy)",
+      "test-backend (pytest + coverage)",
+      "lint-frontend (next lint)",
+      "typecheck-frontend (tsc --noEmit)",
+      "test-frontend (vitest)"
+    ]
+  },
+  "ai_runtime": {
+    "llm": "Ollama 0.32.5 — Qwen 3 4B (qwen3:4b)",
+    "ollama_url": "http://localhost:11434",
+    "embedding_model": "BAAI/bge-base-en-v1.5 (sentence-transformers)",
+    "embedding_dim": 768,
+    "embedding_normalization": "L2-normalized (float32, InnerProduct FAISS)",
+    "embedding_singleton": "ai/rag/embeddings.py — EmbeddingModel.get_instance()",
+    "chunking": "ai/rag/chunking.py — chunk_text(size=800, overlap=150)",
+    "vector_store": "FAISS (per-project indexes)",
+    "faiss_path": "/Users/ujjwal/Desktop/FoundrAI/data/faiss",
+    "knowledge_index": "data/faiss/knowledge/ — 54 chunks from 5 knowledge docs",
+    "memory_manager": "ai/memory/memory_manager.py — MemoryManager(embed_fn=None)",
+    "memory_search_endpoint": "POST /api/v1/projects/{id}/memory/search",
+    "knowledge_docs": [
+      "data/knowledge/startup/startup_playbook.md",
+      "data/knowledge/finance/unit_economics.md",
+      "data/knowledge/marketing/gtm_strategies.md",
+      "data/knowledge/product/product_roadmap_guide.md",
+      "data/knowledge/templates/validation_template.md"
+    ],
+    "build_index_script": "scripts/build_index.py (idempotent, run from backend with poetry)",
+    "langgraph_state": "ai/graphs/state.py — WorkflowState TypedDict (total=False), make_initial_state()",
+    "graph_nodes": {
+      "context_loader": "ai/graphs/nodes/context_loader.py — enriches inputs, adds step record",
+      "rag_node": "ai/graphs/nodes/rag_node.py — searches project + knowledge FAISS, graceful on missing",
+      "prompt_builder": "ai/runtime/prompt_builder.py — build()/build_repair(), template loading, §3.5 context block"
+    },
+    "orchestration": "LangGraph — ALL COMPLETE. graph_factory.py routes all 8 module_keys. WorkflowService.execute() runs graphs in background tasks with SSE + DB callbacks.",
+    "agents": 8,
+    "status": "ALL COMPLETE — all 8 agents, graphs, guardrails, export service, eval suite all done.",
+    "ollama_binary": "/opt/homebrew/bin/ollama",
+    "ollama_models_dir": "/Users/ujjwal/.ollama/models",
+    "start_command": "brew services start ollama  # or: ollama serve"
+  },
+  "decisions_and_notes": [
+    "Using EDB PostgreSQL 17 (installed at /Library/PostgreSQL/17), NOT Docker postgres and NOT Homebrew postgres for development.",
+    "Docker postgres in docker-compose.yml is mapped to host port 5433 to avoid conflict with the EDB instance on 5432.",
+    "Frontend directory is 'Frontend' (capital F) — this is intentional, it was the legacy TanStack Start app that was migrated to Next.js 15 in place.",
+    "bun is used as the frontend package manager (not pnpm or npm).",
+    "Poetry binary is at /Users/ujjwal/.local/bin/poetry — not on PATH by default in some shells, use full path.",
+    "Python 3.12 is specified in pyproject.toml but system has 3.11.9 — Poetry resolves via its own venv.",
+    "JWT_SECRET_KEY in backend/.env is a dev placeholder — must be changed in production.",
+    "Alembic migrations are manual (not autogenerate) to maintain precise control over schema.",
+    "Migrated LLM from qwen3:8b to qwen3:4b on 2025-07-30 for better speed/VRAM balance on M1. All 8 agents.yaml entries updated, models.yaml default updated, backend/.env OLLAMA_MODEL updated.",
+    "Embedding model BAAI/bge-base-en-v1.5 loads lazily via EmbeddingModel singleton. Model cached to ~/.cache/huggingface/ (~440MB). Do not call embed() at import time.",
+    "chunk_text() guarantees positional exactness: chunk[i] == text[start:start+len(chunk)]. This satisfies Property 5 (content coverage).",
+    "FAISS indexes are per-project in data/faiss/{project_id}/. Knowledge base uses project_id='knowledge'.",
+    "MemoryManager uses content_hash SHA-256 dedup — same text never indexed twice per project.",
+    "Memory calls in ArtifactService and ProjectService are fire-and-continue (try/except + log) — never block main operations.",
+    "scripts/build_index.py is idempotent — deletes and rebuilds knowledge index on every run. Run with: cd backend && poetry run python ../scripts/build_index.py",
+    "Task 38: graph_factory.py at ai/graphs/graph_factory.py — get_graph(module_key) returns compiled LangGraph. WorkflowService.execute() dispatches to GraphFactory.run() in a FastAPI BackgroundTask.",
+    "Task 39: Guardrails at ai/guardrails/ — prompt_injection.py, schema_validation.py, output_validation.py. All three run around agent execution in the LangGraph pipeline.",
+    "Task 40: Frontend workflow UI fully wired — WorkflowTriggerButton, WorkflowProgressBar (SSE), step timeline, locked module state with dependency reason displayed.",
+    "Task 41: Export service at backend/app/exporters/investor_pack.py. POST /projects/{id}/export/investor-pack. Minimum required: validation_report + business_model_canvas + financial_model. Files saved to data/exports/.",
+    "Task 42: AuditLog ORM at backend/app/models/audit_log.py. Middleware logs project.create, workflow.trigger, export. All errors return {error: {code, message, details}} shape.",
+    "Task 43: Health endpoints in app/main.py — GET /health (liveness) + GET /health/ready (DB + Ollama qwen3:4b + FAISS writable). 503 returned on any failure.",
+    "Task 44: Full test suite at 310+ tests, ≥70% coverage. conftest.py has async test fixtures. pytest-asyncio mode=auto.",
+    "Task 45: Frontend polish — ErrorBoundary, Sonner toasts, skeletons, empty states, responsive, dark mode.",
+    "Task 46: Production Docker — Dockerfile.backend (multi-stage slim), Dockerfile.frontend (Next.js standalone), docker-compose.prod.yml, nginx.conf, scripts/setup.sh (one-command setup).",
+    "Task 47: Documentation — README.md (full completed state), docs/SETUP.md (step-by-step local setup), AGENTS.md (agent reference at project root), .env.example polished.",
+    "Task 48: Eval suite — ai/evaluation/ package with 24 test cases (8 agents × 3), scripts/run_evals.py, backend/tests/ai/test_evaluation.py (28 tests). Total: 400 tests passing, schema_valid_rate=100%."
+  ]
+}

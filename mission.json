@@ -1,0 +1,315 @@
+{
+  "project": {
+    "name": "FoundrAI",
+    "tagline": "From Idea to Startup, Powered by AI",
+    "version": "1.0.0",
+    "description": "AI-powered SaaS platform that helps entrepreneurs transform startup ideas into validated business plans, product roadmaps, technical architectures, financial strategies, marketing plans, and investor-ready documentation"
+  },
+  "architecture": {
+    "frontend": {
+      "technology": "Next.js 15, React 19, TypeScript, Tailwind CSS, shadcn/ui, TanStack Query, Framer Motion",
+      "structure": "App Router with (auth) and (dashboard) route groups",
+      "status": "partially_complete"
+    },
+    "backend": {
+      "technology": "Python 3.12, FastAPI, SQLAlchemy, Alembic, PostgreSQL, JWT",
+      "structure": "Clean Architecture with Repository Pattern and Service Layer",
+      "status": "not_started"
+    },
+    "ai": {
+      "technology": "LangGraph, LangChain, Ollama (Qwen 3 8B), Sentence Transformers, FAISS",
+      "structure": "Multi-agent system with 8 specialized agents and workflow orchestration",
+      "status": "not_started"
+    },
+    "deployment": {
+      "technology": "Docker, Docker Compose",
+      "environment": "Local-first with containerization",
+      "status": "not_started"
+    }
+  },
+  "pipeline": {
+    "phases": [
+      {
+        "phase": 0,
+        "name": "Foundation",
+        "goal": "Setup repository structure, environment, CI/CD, health checks",
+        "status": "pending",
+        "tasks": [
+          "Repository initialization and folder structure",
+          "Environment variable setup (.env)",
+          "Docker Compose configuration",
+          "Makefile for common commands",
+          "CI/CD pipeline setup",
+          "Health check endpoints"
+        ]
+      },
+      {
+        "phase": 1,
+        "name": "Core Platform",
+        "goal": "Authentication, users, projects, database foundation",
+        "status": "pending",
+        "tasks": [
+          "PostgreSQL setup and connection",
+          "Alembic migrations initialization",
+          "User model and authentication (JWT)",
+          "Register/Login/Refresh/Logout endpoints",
+          "Project CRUD endpoints",
+          "Frontend authentication pages",
+          "Frontend project management UI"
+        ]
+      },
+      {
+        "phase": 2,
+        "name": "Workspace",
+        "goal": "Module system, artifacts, versioning",
+        "status": "pending",
+        "tasks": [
+          "Project modules seeding (8 modules)",
+          "Module status management",
+          "Artifacts and artifact_versions tables",
+          "Artifact CRUD endpoints",
+          "Module workspace UI",
+          "Artifact viewer and editor components",
+          "Version history UI"
+        ]
+      },
+      {
+        "phase": 3,
+        "name": "AI Infrastructure",
+        "goal": "Embeddings, memory, FAISS, knowledge base",
+        "status": "pending",
+        "tasks": [
+          "Ollama setup and model pulling (Qwen 3 8B)",
+          "Sentence Transformers embedding model",
+          "FAISS index creation and management",
+          "Memory chunks table and indexing",
+          "Knowledge documents seeding",
+          "RAG pipeline (chunking, indexing, retrieval)",
+          "Memory search endpoints"
+        ]
+      },
+      {
+        "phase": 4,
+        "name": "Workflows & Agents",
+        "goal": "LangGraph orchestration and 8 specialized agents",
+        "status": "pending",
+        "tasks": [
+          "LangGraph state management",
+          "Workflow orchestration service",
+          "Workflow runs/steps/executions tables",
+          "Agent 1: Idea Validation",
+          "Agent 2: Market Research",
+          "Agent 3: Business Model",
+          "Agent 4: Product Strategy",
+          "Agent 5: Technical Architecture",
+          "Agent 6: Financial Planning",
+          "Agent 7: Marketing Strategy",
+          "Agent 8: Investor Documentation",
+          "Prompt templates and versioning",
+          "Schema validation and repair nodes",
+          "Reflection and self-critique logic",
+          "Workflow progress UI (SSE)",
+          "Module dependency enforcement"
+        ]
+      },
+      {
+        "phase": 5,
+        "name": "Hardening & Ship",
+        "goal": "Testing, export, production deployment",
+        "status": "pending",
+        "tasks": [
+          "Investor pack export functionality",
+          "Unit tests (backend)",
+          "Integration tests (API)",
+          "E2E tests (frontend)",
+          "AI evaluation suite",
+          "Error boundaries and toast notifications",
+          "Loading states and skeleton screens",
+          "Docker production compose",
+          "Production environment variables",
+          "Documentation (README, API docs)",
+          "Deployment guide"
+        ]
+      }
+    ],
+    "modules": [
+      {
+        "module_key": "idea_validation",
+        "display_name": "Idea Validation",
+        "artifact_type": "validation_report",
+        "dependencies": [],
+        "agent": "idea_validator",
+        "status": "not_started"
+      },
+      {
+        "module_key": "market_research",
+        "display_name": "Market Research",
+        "artifact_type": "market_analysis",
+        "dependencies": ["validation_report"],
+        "agent": "market_researcher",
+        "status": "not_started"
+      },
+      {
+        "module_key": "business_model",
+        "display_name": "Business Model",
+        "artifact_type": "business_model_canvas",
+        "dependencies": ["validation_report", "market_analysis"],
+        "agent": "business_modeler",
+        "status": "not_started"
+      },
+      {
+        "module_key": "product_strategy",
+        "display_name": "Product Strategy",
+        "artifact_type": "product_roadmap",
+        "dependencies": ["business_model_canvas"],
+        "agent": "product_strategist",
+        "status": "not_started"
+      },
+      {
+        "module_key": "technical_architecture",
+        "display_name": "Technical Architecture",
+        "artifact_type": "architecture_doc",
+        "dependencies": ["product_roadmap"],
+        "agent": "technical_architect",
+        "status": "not_started"
+      },
+      {
+        "module_key": "financial_planning",
+        "display_name": "Financial Planning",
+        "artifact_type": "financial_model",
+        "dependencies": ["business_model_canvas", "product_roadmap"],
+        "agent": "financial_analyst",
+        "status": "not_started"
+      },
+      {
+        "module_key": "marketing_strategy",
+        "display_name": "Marketing Strategy",
+        "artifact_type": "marketing_plan",
+        "dependencies": ["business_model_canvas", "product_roadmap"],
+        "agent": "marketing_strategist",
+        "status": "not_started"
+      },
+      {
+        "module_key": "investor_documentation",
+        "display_name": "Investor Documentation",
+        "artifact_type": "investor_deck_outline",
+        "dependencies": ["validation_report", "market_analysis", "business_model_canvas", "product_roadmap", "financial_model"],
+        "agent": "investor_writer",
+        "status": "not_started"
+      }
+    ]
+  },
+  "tech_stack": {
+    "frontend": {
+      "framework": "Next.js 15",
+      "ui_library": "React 19",
+      "language": "TypeScript 5",
+      "styling": "Tailwind CSS 4",
+      "components": "shadcn/ui",
+      "state_management": "TanStack Query 5",
+      "animations": "Framer Motion 11",
+      "validation": "Zod 3"
+    },
+    "backend": {
+      "language": "Python 3.12",
+      "framework": "FastAPI 0.115+",
+      "server": "Uvicorn 0.32+",
+      "orm": "SQLAlchemy 2.x",
+      "migrations": "Alembic 1.14+",
+      "validation": "Pydantic 2.x",
+      "auth": "python-jose/PyJWT",
+      "password": "passlib + bcrypt",
+      "http_client": "httpx"
+    },
+    "ai": {
+      "orchestration": "LangGraph 0.2+",
+      "llm_framework": "LangChain 0.3+",
+      "model_server": "Ollama",
+      "primary_model": "Qwen 3 8B",
+      "embeddings": "Sentence Transformers (BAAI/bge-base-en-v1.5)",
+      "vector_store": "FAISS (CPU)"
+    },
+    "database": {
+      "primary": "PostgreSQL 16",
+      "vector_index": "FAISS"
+    },
+    "deployment": {
+      "containerization": "Docker 27+",
+      "orchestration": "Docker Compose v2"
+    }
+  },
+  "excluded_technologies": {
+    "note": "Do NOT use these - project runs completely locally",
+    "cloud_llm_apis": ["OpenAI API", "Anthropic API", "Gemini API", "AWS Bedrock", "Azure OpenAI"],
+    "cloud_services": ["Supabase", "Firebase", "Pinecone", "Chroma Cloud", "Redis Cloud"],
+    "alternative_databases": ["MongoDB"]
+  },
+  "development_philosophy": {
+    "principles": [
+      "Production-quality code from day one",
+      "Follow SOLID principles",
+      "Use Clean Architecture",
+      "Repository Pattern for data access",
+      "Service Layer for business logic",
+      "Dependency Injection where appropriate",
+      "Modular and maintainable code",
+      "Avoid tight coupling",
+      "No code duplication",
+      "Never hardcode secrets",
+      "Comprehensive error handling",
+      "Structured logging",
+      "Type safety everywhere"
+    ],
+    "rules": {
+      "always": [
+        "Write clean, readable code",
+        "Use type hints (Python) and TypeScript",
+        "Write proper docstrings",
+        "Use async where beneficial",
+        "Use structured exceptions",
+        "Use environment variables for config",
+        "Write unit tests",
+        "Write integration tests",
+        "Follow documentation exactly"
+      ],
+      "never": [
+        "Hardcode credentials",
+        "Duplicate code",
+        "Mix business logic in UI",
+        "Skip validation",
+        "Ignore error handling",
+        "Commit secrets",
+        "Deviate from architecture without approval"
+      ]
+    }
+  },
+  "success_criteria": {
+    "functional": [
+      "User can register, login, and manage profile",
+      "User can create and manage projects",
+      "User can trigger workflows for all 8 modules",
+      "AI generates valid, structured artifacts",
+      "Artifacts are versioned and editable",
+      "Module dependencies are enforced",
+      "Memory/RAG retrieves relevant context",
+      "Investor pack export generates markdown bundle",
+      "All features work via Docker Compose"
+    ],
+    "quality": [
+      "Schema-valid outputs ≥85% before repair",
+      "Workflow p95 latency <10 minutes",
+      "API p95 latency <300ms (non-AI endpoints)",
+      "Memory search <1s p95",
+      "No secrets in logs",
+      "100% of endpoints use proper auth",
+      "All migrations are reversible"
+    ],
+    "operational": [
+      "Clean Docker Compose startup",
+      "Health checks pass",
+      "Structured JSON logs",
+      "Correlation IDs in workflow traces",
+      "Readiness probes verify DB + Ollama"
+    ]
+  }
+}

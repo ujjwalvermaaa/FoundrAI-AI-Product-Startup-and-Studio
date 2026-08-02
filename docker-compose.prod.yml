@@ -1,0 +1,128 @@
+version: "3.9"
+
+# ============================================================
+# FoundrAI — Production Docker Compose
+#
+# Prerequisites:
+#   1. Copy .env.example → .env and fill in secrets
+#   2. Ensure Ollama is running (host or external)
+#   3. docker compose -f docker-compose.prod.yml up -d
+#
+# NOTE: Ollama runs on the HOST machine (not in Docker).
+#       The backend connects via host.docker.internal:11434
+# ============================================================
+
+services:
+
+  # ── PostgreSQL ─────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: foundrai-postgres-prod
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-foundrai}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      POSTGRES_DB: ${POSTGRES_DB:-foundrai}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-foundrai} -d ${POSTGRES_DB:-foundrai}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    networks:
+      - foundrai-net
+    # Do NOT expose port in production — only accessible via internal network
+
+  # ── Backend (FastAPI) ───────────────────────────────────────
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+    image: foundrai-backend:latest
+    container_name: foundrai-backend-prod
+    restart: always
+    env_file:
+      - .env
+    environment:
+      # Override DATABASE_URL to use the Docker postgres service
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-foundrai}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-foundrai}
+      # Connect to Ollama running on the host machine
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      # App settings
+      APP_ENV: production
+      FAISS_INDEX_PATH: /app/data/faiss
+      EXPORT_DIR: /app/data/exports
+      KNOWLEDGE_DIR: /app/data/knowledge
+      LOG_DIR: /app/logs
+      WORKERS: ${BACKEND_WORKERS:-2}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      # Persist AI data, exports, and logs
+      - ./data:/app/data
+      - ./logs:/app/logs
+    networks:
+      - foundrai-net
+    # Run migrations on startup before launching uvicorn
+    command: >
+      sh -c "
+        echo 'Running database migrations...' &&
+        alembic upgrade head &&
+        echo 'Starting uvicorn...' &&
+        uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers ${WORKERS:-2}
+      "
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  # ── Frontend (Next.js standalone) ──────────────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+      args:
+        # API URL as seen from the browser (via nginx proxy)
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost/api/v1}
+    image: foundrai-frontend:latest
+    container_name: foundrai-frontend-prod
+    restart: always
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost/api/v1}
+    depends_on:
+      - backend
+    networks:
+      - foundrai-net
+
+  # ── Nginx (reverse proxy) ───────────────────────────────────
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: foundrai-nginx-prod
+    restart: always
+    ports:
+      - "${HTTP_PORT:-80}:80"
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./data/exports:/var/www/exports:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - foundrai-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+    name: foundrai_postgres_data_prod
+
+networks:
+  foundrai-net:
+    name: foundrai_network_prod
+    driver: bridge

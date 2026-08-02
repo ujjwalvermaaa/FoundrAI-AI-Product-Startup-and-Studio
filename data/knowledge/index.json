@@ -1,0 +1,109 @@
+{
+  "project_key": "knowledge-base",
+  "knowledge_dir": "/Users/ujjwal/Desktop/FoundrAI/data/knowledge",
+  "faiss_dir": "/Users/ujjwal/Desktop/FoundrAI/data/faiss/knowledge-base",
+  "n_documents": 5,
+  "n_chunks": 54,
+  "built_at": "2026-07-30T12:23:16.527720+00:00",
+  "documents": [
+    {
+      "doc_id": "f77bead8-a461-563d-8a91-608b7724fa57",
+      "path": "finance/unit_economics.md",
+      "absolute_path": "/Users/ujjwal/Desktop/FoundrAI/data/knowledge/finance/unit_economics.md",
+      "n_chunks": 10,
+      "chunk_ids": [
+        "35fd93e1-2967-531a-8fdf-071c34e2ed86",
+        "463b84ac-702d-5fb7-8313-e07234875a12",
+        "03dfac3d-7830-5068-8ae6-0a8b231e8944",
+        "8c0de3ea-f595-5e18-ae1f-2c160da9029f",
+        "fb0b7b1d-dfb7-5f5a-84ac-16b2aa31bddb",
+        "c2e159e9-9085-598c-8e92-b66d4522c4af",
+        "1f3b29f5-edb7-5894-ba5e-98122ba5094f",
+        "b18259f5-00f1-59e0-b319-434dc8fee9a4",
+        "e5c56966-c7dd-54a1-943a-b92ed06373de",
+        "c1c18c7b-1b51-5b44-8300-413b7a75ab0d"
+      ],
+      "indexed_at": "2026-07-30T12:23:13.357627+00:00"
+    },
+    {
+      "doc_id": "cad7b7dd-231e-5c46-ada5-5b37b56ac3f0",
+      "path": "marketing/gtm_strategies.md",
+      "absolute_path": "/Users/ujjwal/Desktop/FoundrAI/data/knowledge/marketing/gtm_strategies.md",
+      "n_chunks": 12,
+      "chunk_ids": [
+        "4a7579d3-73b9-5d77-b249-e196c7dac1d5",
+        "b316de30-71d3-5e26-b31b-d6d43be2b962",
+        "197cd911-844e-57a7-bd2b-beb61aa9df6e",
+        "eefed915-d3a7-51b1-b8d7-3051dd72f98e",
+        "027ee84c-4c56-5112-8379-0764f5f51e37",
+        "76b2a981-95af-5e74-8cc0-3e1e1c689f34",
+        "56456bbe-6300-506e-94a4-1ab9c8041ade",
+        "a5a07a20-1f39-5a29-9e65-87945489aef1",
+        "9a405e7b-0aef-565a-8b00-93eb02574c31",
+        "38d30259-7bdc-5605-bce2-d421cd6a2e77",
+        "3be35bcf-f477-5bc2-9d62-8feaa5325de3",
+        "7e663a26-43a8-5a97-9fce-084789184141"
+      ],
+      "indexed_at": "2026-07-30T12:23:14.324300+00:00"
+    },
+    {
+      "doc_id": "51ab09f2-738b-5905-b0d1-3604899a93f2",
+      "path": "product/product_roadmap_guide.md",
+      "absolute_path": "/Users/ujjwal/Desktop/FoundrAI/data/knowledge/product/product_roadmap_guide.md",
+      "n_chunks": 11,
+      "chunk_ids": [
+        "688395e4-504e-5b29-8869-7885abbf5528",
+        "df06d8a1-a403-5bcf-8c81-ec97862d5f2e",
+        "a98e3ea8-3f98-5a89-862d-7206432283f3",
+        "acf67d12-9276-5e47-91ae-bba2f6eaeec3",
+        "780a2a08-c8ec-510f-9275-20e8742366c6",
+        "75c6bf35-c0d8-560f-9e22-d02b49efc03e",
+        "24fa2294-376f-54f0-83b7-dea903448394",
+        "50ab04ab-a1ed-5df3-bca5-5b78b41aafb4",
+        "f771277d-3dc5-5599-a797-669baa9ed90e",
+        "e0018fd0-824e-53d9-8d31-2db2624b9321",
+        "52ecb4a4-64a6-5455-bc89-78a9ecb19703"
+      ],
+      "indexed_at": "2026-07-30T12:23:14.982476+00:00"
+    },
+    {
+      "doc_id": "1ae14f67-737f-5466-b23d-e023c08c7fb8",
+      "path": "startup/startup_playbook.md",
+      "absolute_path": "/Users/ujjwal/Desktop/FoundrAI/data/knowledge/startup/startup_playbook.md",
+      "n_chunks": 9,
+      "chunk_ids": [
+        "fab70abb-2972-550d-81aa-8904910c53ae",
+        "6d3c2687-5e30-5ff5-b509-f6b20f6c62a5",
+        "f0036675-273d-5ecc-8b15-cf338807f3de",
+        "8c100f67-fbaf-5cc8-b332-2b38912a5a1e",
+        "b5d5e9e6-27d2-569e-a58b-1f1011bbabbd",
+        "a5adf284-b85b-5206-98c0-454cb29d1334",
+        "7f02b99a-77a6-5768-bb61-a976f5a8b1d7",
+        "852374e9-3cb6-59a1-8bda-7a5728c1ee34",
+        "120a8cfd-ca56-5d3f-b606-21c6e06b01ed"
+      ],
+      "indexed_at": "2026-07-30T12:23:15.552141+00:00"
+    },
+    {
+      "doc_id": "0ec11877-c6b2-5b5c-b59b-4e7423d3efcb",
+      "path": "templates/validation_template.md",
+      "absolute_path": "/Users/ujjwal/Desktop/FoundrAI/data/knowledge/templates/validation_template.md",
+      "n_chunks": 12,
+      "chunk_ids": [
+        "d19cd9bd-98df-5a75-ace0-29116482b9f4",
+        "6fa69a6f-3c94-5ff5-8997-9f3503237ac5",
+        "cfab814d-1dec-57f9-869d-ff4c9f50ef97",
+        "67f01b73-4e2f-5826-a30b-96ab33d17d4c",
+        "7696e2eb-78c6-5bd3-807c-eec98be6dfed",
+        "a59043e3-b72d-5b4d-9140-ad775bf3920c",
+        "cef0fcd2-21b0-58fd-af9f-77eec2fd39f1",
+        "cac07845-7528-576b-b952-cddf3da878c7",
+        "4d1dcd0f-d16e-57aa-afd1-a80dd2856898",
+        "6ae7cd24-d1af-5392-a784-854531d4122f",
+        "dfdff654-9527-5e49-b4b2-ad7e6f733931",
+        "25de571e-3e3e-5b91-adc9-f54503bfbc44"
+      ],
+      "indexed_at": "2026-07-30T12:23:16.526007+00:00"
+    }
+  ]
+}

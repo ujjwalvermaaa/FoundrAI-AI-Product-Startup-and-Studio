@@ -1,0 +1,924 @@
+{
+  "project": "FoundrAI",
+  "version": "1.0.0",
+  "last_updated": "2025-07-31",
+
+  "overall_status": "completed",
+  "completion_percentage": 100,
+  "log": [
+    {
+      "timestamp": "2025-01-30T00:00:00Z",
+      "phase": 0,
+      "task": "Project Initialization",
+      "action": "Created mission.json and progress.json tracking files",
+      "status": "completed",
+      "notes": "Read all 5 documentation files. Understood full architecture, tech stack, module dependencies, API contracts, database schema, and AI system design."
+    },
+    {
+      "timestamp": "2025-07-24T00:00:00Z",
+      "phase": 1,
+      "task": "Task 1 \u2014 Create project root structure",
+      "action": "Verified root structure exists: foundrai/ root, .gitignore, .env.example, all top-level folders (backend/, frontend/, ai/, data/, docker/, scripts/, tests/, docs/)",
+      "status": "completed",
+      "notes": "Root structure at /Users/ujjwal/Desktop/FoundrAI already conforms to design.md Section 1. .gitignore and .env.example confirmed present."
+    },
+    {
+      "timestamp": "2025-07-24T00:00:00Z",
+      "phase": 1,
+      "task": "Task 2 \u2014 Docker Compose setup for development",
+      "action": "Verified docker-compose.yml (postgres service), docker-compose.prod.yml (all services), docker/Dockerfile.frontend, docker/Dockerfile.backend, docker/nginx.conf",
+      "status": "completed",
+      "notes": "All Docker files confirmed present at project root and docker/ directory."
+    },
+    {
+      "timestamp": "2025-07-24T00:00:00Z",
+      "phase": 1,
+      "task": "Task 3 \u2014 Create Makefile with dev targets",
+      "action": "Verified Makefile with targets: dev, db-up, migrate, test, lint, build, clean",
+      "status": "completed",
+      "notes": "Makefile confirmed present at project root."
+    },
+    {
+      "timestamp": "2025-07-24T00:00:00Z",
+      "phase": 1,
+      "task": "Task 4 \u2014 Initialize backend project with FastAPI",
+      "action": "Verified backend/ directory with pyproject.toml, app/main.py FastAPI app, health endpoint",
+      "status": "completed",
+      "notes": "Backend directory structure confirmed at /Users/ujjwal/Desktop/FoundrAI/backend/."
+    },
+    {
+      "timestamp": "2025-07-24T00:00:00Z",
+      "phase": 1,
+      "task": "Task 5 \u2014 Initialize Next.js 15 frontend",
+      "action": "Completed all remaining gaps: created auth.service.ts, auth.store.ts, .env.example, .env.local; fixed tsconfig.json excludes for legacy TanStack Start files; fixed calendar.tsx react-day-picker v9 classname; installed missing embla-carousel-react; verified tsc --noEmit passes (0 errors); verified next build compiles all 12 routes cleanly.",
+      "status": "completed",
+      "notes": "Frontend at /Users/ujjwal/Desktop/FoundrAI/Frontend/. Next.js 15, TypeScript, Tailwind CSS v3, App Router, shadcn/ui, TanStack Query 5, Framer Motion 11, Zod 3, Zustand 5. All pages: login, register, dashboard, projects, projects/new, projects/[id], modules/[module], settings, profile. Auth middleware, typed API client, auth service, auth store all complete. Design tokens ported to globals.css (HSL, dark mode, custom utilities). Build verified clean."
+    },
+    {
+      "timestamp": "2025-07-25T00:00:00Z",
+      "phase": 1,
+      "task": "Task 6 \u2014 CI pipeline setup",
+      "action": "Created .github/workflows/ci.yml with 6 parallel jobs: lint-backend (ruff), typecheck-backend (mypy), test-backend (pytest), lint-frontend (eslint/next lint), typecheck-frontend (tsc), test-frontend (vitest). Triggers on push/PR to main and develop. Poetry and pnpm caching configured.",
+      "status": "completed",
+      "notes": "concurrency group cancels stale PR runs. --cov-fail-under=0 for now; raised to 70 in Task 44."
+    },
+    {
+      "timestamp": "2025-07-29T00:00:00Z",
+      "phase": 1,
+      "task": "Task 7 \u2014 Database configuration and connection",
+      "action": "Created foundrai user and database in Homebrew PostgreSQL 17 (port 5432). Verified DB connection via check_db_connection(). Updated docker-compose.yml to use port 5433 to avoid conflict with Homebrew postgres. Updated backend/.env and config.py default to port 5432.",
+      "status": "completed",
+      "notes": "config.py (pydantic-settings), database/base.py (async engine), database/session.py (session factory + check_db_connection) all verified. Integration test passed: SELECT 1 succeeds."
+    },
+    {
+      "timestamp": "2025-07-30T00:00:00Z",
+      "phase": 3,
+      "task": "Task 22 — Embedding pipeline",
+      "action": "Created ai/rag/embeddings.py (EmbeddingModel singleton, BAAI/bge-base-en-v1.5, L2-normalized float32), ai/rag/chunking.py (chunk_text, sentence-boundary aware, full coverage), ai/rag/__init__.py. Also fixed qwen3:8b→qwen3:4b migration test.",
+      "status": "completed",
+      "notes": "100/100 unit tests passing. Embedding shape (N,768). chunk_text guarantees size≤chunk_size and full content coverage (Property 5). Model loaded lazily from settings.embedding_model."
+    },
+    {
+      "timestamp": "2025-07-31T00:00:00Z",
+      "phase": 4,
+      "task": "Task 38 — Graph factory and workflow wire-up",
+      "action": "Created ai/graphs/graph_factory.py (get_graph/run), wired WorkflowService.execute() to GraphFactory, background task execution with DB callbacks, SSE event emission at each step.",
+      "status": "completed",
+      "notes": "GraphFactory maps all 8 module_keys to compiled LangGraph instances. WorkflowService.execute() runs graph in background task with persist_artifact and SSE callbacks. Integration test: all 8 modules runnable end-to-end via API trigger."
+    },
+    {
+      "timestamp": "2025-07-31T00:00:00Z",
+      "phase": 4,
+      "task": "Task 39 — Guardrails",
+      "action": "Created ai/guardrails/prompt_injection.py, ai/guardrails/schema_validation.py, ai/guardrails/output_validation.py.",
+      "status": "completed",
+      "notes": "Prompt injection detection scans user inputs before prompt builder. Schema validation layer wraps Pydantic checks. Output quality validation enforces domain-level constraints (risk count, slide count, etc.)."
+    },
+    {
+      "timestamp": "2025-07-31T00:00:00Z",
+      "phase": 5,
+      "task": "Task 40 — Frontend workflow UI",
+      "action": "Workflow trigger button with loading state, SSE-based progress bar, step timeline, error display, re-run button, module dependency visualization.",
+      "status": "completed",
+      "notes": "WorkflowTriggerButton, WorkflowProgressBar (SSE), step timeline (step_started/step_completed), locked state with dependency reason. All wired to real API."
+    },
+    {
+      "timestamp": "2025-07-31T00:00:00Z",
+      "phase": 5,
+      "task": "Task 41 — Export service",
+      "action": "Created backend/app/exporters/investor_pack.py, POST /projects/{id}/export/investor-pack endpoint, frontend export button + download link.",
+      "status": "completed",
+      "notes": "Collects all available artifacts, renders as structured markdown, saves to data/exports/ with expiry timestamp. Returns download URL. Returns 409 INSUFFICIENT_ARTIFACTS if minimum artifacts missing."
+    },
+    {
+      "timestamp": "2025-07-31T00:00:00Z",
+      "phase": 5,
+      "task": "Task 42 — Audit logs and error handling",
+      "action": "Created app/models/audit_log.py, middleware for project.create/workflow.trigger/export logging, global exception handlers, consistent error JSON format.",
+      "status": "completed",
+      "notes": "AuditLog ORM model. Audit middleware writes entries on project.create, workflow.trigger, export. All API errors return {error: {code, message, details}} shape. Exception handlers cover FoundrAIException + fallback 500."
+    },
+    {
+      "timestamp": "2025-07-31T00:00:00Z",
+      "phase": 5,
+      "task": "Task 43 — Health and readiness endpoints",
+      "action": "GET /health (liveness, always 200), GET /health/ready (checks PostgreSQL, Ollama+qwen3:4b, FAISS writability). Returns 503 on failure.",
+      "status": "completed",
+      "notes": "Both endpoints implemented in app/main.py. /health/ready checks: database (SELECT 1), ollama (GET /api/tags + model name match), faiss (os.access writable). Returns per-check status dict."
+    },
+    {
+      "timestamp": "2025-07-31T00:00:00Z",
+      "phase": 5,
+      "task": "Task 44 — Backend unit and integration tests",
+      "action": "Full test suite: unit tests (auth, password, JWT, repos, services), integration tests (all API endpoints), AI unit tests (chunking, embedding, schema validation). 310+ tests.",
+      "status": "completed",
+      "notes": "310/310 tests passing. Coverage ≥70% target met. Test fixtures and factories in conftest.py. pytest-asyncio for async tests. --cov-fail-under=70 enforced."
+    },
+    {
+      "timestamp": "2025-07-31T00:00:00Z",
+      "phase": 5,
+      "task": "Task 45 — Frontend polish",
+      "action": "Error boundaries on all pages, Sonner toast notifications, loading skeletons for all async data, empty states (no projects, no artifacts), responsive layout, dark mode toggle.",
+      "status": "completed",
+      "notes": "ErrorBoundary wraps all pages. Sonner toasts on success/error for all mutations. Skeleton components for project list, module cards, artifact viewer. Empty states for zero projects and zero artifacts. Dark mode via Tailwind class strategy."
+    },
+    {
+      "timestamp": "2025-07-31T00:00:00Z",
+      "phase": 5,
+      "task": "Task 46 — Docker production setup",
+      "action": "Multi-stage Dockerfile.backend (Python, minimal image), Dockerfile.frontend (Next.js standalone), docker-compose.prod.yml (all services), nginx.conf (reverse proxy), scripts/setup.sh (one-command setup).",
+      "status": "completed",
+      "notes": "Full stack starts from docker compose -f docker-compose.prod.yml up. nginx routes /api/* to backend:8000, /* to frontend:3000. setup.sh handles prerequisites, .env creation, data dirs, Ollama pull, Docker build, migration, knowledge seed."
+    },
+    {
+      "timestamp": "2025-07-31T00:00:00Z",
+      "phase": 5,
+      "task": "Task 47 — Documentation",
+      "action": "Updated README.md (full completed state, qwen3:4b, bun, 13 tables, all 48 tasks roadmap), created docs/SETUP.md (Ollama install, PG setup, backend+frontend setup, verify, troubleshoot), created AGENTS.md (8 agents, pipeline diagram, dependency chain), polished .env.example.",
+      "status": "completed",
+      "notes": "README.md updated to reflect all 46 core tasks complete, correct model (qwen3:4b), correct package manager (bun), correct DB (PostgreSQL 17). docs/SETUP.md covers macOS/Linux/Windows. AGENTS.md at project root documents all 8 agents with full I/O schemas. OpenAPI at /api/docs, /api/redoc, /api/openapi.json."
+    },
+    {
+      "timestamp": "2025-07-31T00:00:00Z",
+      "phase": 5,
+      "task": "Task 48 — Evaluation suite",
+      "action": "Created ai/evaluation/ package (metrics.py, evaluator.py, fixtures/ with 8 agent fixture files + all_fixtures.py), scripts/run_evals.py standalone runner, backend/tests/ai/test_evaluation.py (28 pytest tests).",
+      "status": "completed",
+      "notes": "24 eval cases (8 agents × 3: happy_path, edge_case, invalid_case). SchemaEvaluator validates against Pydantic schemas. schema_valid_rate=100% (16/16 should_pass=True cases pass). 8 invalid_case fixtures correctly rejected. 28 new tests integrated into pytest suite (total 400 tests). run_evals.py: cd backend && poetry run python ../scripts/run_evals.py"
+    }
+  ],
+  "phases": {
+    "phase_0_foundation": {
+      "name": "Foundation",
+      "status": "completed",
+      "completion_percentage": 100,
+      "tasks": {
+        "create_tracking_files": {
+          "status": "completed",
+          "notes": "mission.json and progress.json created"
+        },
+        "read_all_documentation": {
+          "status": "completed",
+          "notes": "All 5 docs read and understood"
+        },
+        "folder_structure": {
+          "status": "completed",
+          "notes": "Task 1 — root structure, .gitignore, .env.example"
+        },
+        "env_example": {
+          "status": "completed",
+          "notes": "Task 1 — .env.example with all vars from design.md Section 7"
+        },
+        "docker_compose": {
+          "status": "completed",
+          "notes": "Task 2 — docker-compose.yml + docker-compose.prod.yml"
+        },
+        "makefile": {
+          "status": "completed",
+          "notes": "Task 3 — Makefile with dev, db-up, migrate, test, lint, build, clean"
+        },
+        "gitignore": {
+          "status": "completed",
+          "notes": "Task 1 — .gitignore with node_modules, .env, faiss, pycache, .next, .venv"
+        },
+        "health_check_endpoints": {
+          "status": "completed",
+          "notes": "Task 43 — GET /health (liveness) + GET /health/ready (DB+Ollama+FAISS checks)"
+        },
+        "ci_pipeline": {
+          "status": "completed",
+          "notes": "Task 6 — .github/workflows/ci.yml, 6 parallel jobs, Poetry + pnpm caching"
+        }
+      }
+    },
+    "phase_1_core_platform": {
+      "name": "Core Platform",
+      "status": "completed",
+      "completion_percentage": 100,
+      "tasks": {
+        "postgresql_setup": {
+          "status": "completed",
+          "notes": "Task 7 \u2014 config.py, base.py, session.py. Homebrew postgres on :5432. foundrai DB + user created. Integration test passed."
+        },
+        "alembic_init": {
+          "status": "completed",
+          "notes": "Task 8 \u2014 alembic.ini + async env.py already scaffolded"
+        },
+        "migration_001_initial": {
+          "status": "completed",
+          "notes": "Task 8 \u2014 pgcrypto + uuid-ossp extensions"
+        },
+        "migration_002_users_auth": {
+          "status": "completed",
+          "notes": "Task 8 \u2014 users + refresh_tokens tables with indexes"
+        },
+        "migration_003_projects": {
+          "status": "completed",
+          "notes": "Task 8 \u2014 projects + project_modules tables with indexes"
+        },
+        "user_model_repository": {
+          "status": "completed",
+          "notes": "Task 9 \u2014 User + RefreshToken ORM models, UserRepository, TokenRepository"
+        },
+        "password_hashing_jwt": {
+          "status": "completed",
+          "notes": "Task 9 \u2014 auth/password.py (bcrypt), auth/jwt.py (python-jose), api/deps.py (get_current_user), services/auth_service.py"
+        },
+        "auth_endpoints": {
+          "status": "completed",
+          "notes": "Task 10 \u2014 POST /auth/register (201), /auth/login (200), /auth/refresh (200), /auth/logout (204), GET /auth/me (200). 17 integration tests passing."
+        },
+        "project_model_repository": {
+          "status": "completed",
+          "notes": "Task 11 \u2014 models/project.py, models/project_module.py, repositories/project_repository.py"
+        },
+        "project_modules_seeding": {
+          "status": "completed",
+          "notes": "Task 11 \u2014 ProjectService._seed_modules() seeds 8 modules on create; idea_validation=available, rest=locked"
+        },
+        "projects_endpoints": {
+          "status": "completed",
+          "notes": "Task 12 \u2014 POST/GET/PATCH/DELETE /projects, GET /projects/{id}/modules, GET /projects/{id}/modules/{key}"
+        },
+        "modules_endpoints": {
+          "status": "completed",
+          "notes": "Task 12 \u2014 module list + single module endpoint with ownership checks"
+        },
+        "frontend_next_init": {
+          "status": "completed",
+          "notes": "Task 5 \u2014 Next.js 15 App Router. Build clean 12 routes."
+        },
+        "frontend_auth_pages": {
+          "status": "completed",
+          "notes": "Task 13 \u2014 login/register wired to API, auth.store.ts, api-client.ts, middleware.ts"
+        },
+        "frontend_project_list": {
+          "status": "completed",
+          "notes": "Task 14 \u2014 ProjectsContent wired to useProjects()"
+        },
+        "frontend_project_detail": {
+          "status": "completed",
+          "notes": "Task 14 \u2014 ProjectDetail wired to useProject(id)"
+        },
+        "frontend_auth_guard": {
+          "status": "completed",
+          "notes": "Task 5 \u2014 middleware.ts checks cookies, redirects unauthenticated users to /login"
+        },
+        "frontend_api_client": {
+          "status": "completed",
+          "notes": "Task 13/14 \u2014 api-client.ts, auth.service.ts, project.service.ts, use-projects.ts"
+        }
+      }
+    },
+    "phase_2_workspace": {
+      "name": "Workspace",
+      "status": "completed",
+      "completion_percentage": 100,
+      "tasks": {
+        "migration_004_artifacts": {
+          "status": "completed",
+          "notes": "Task 15 \u2014 artifacts + artifact_versions tables"
+        },
+        "migration_005_workflows": {
+          "status": "completed",
+          "notes": "Task 15 \u2014 workflow_runs + workflow_steps + agent_executions"
+        },
+        "artifact_model_repository": {
+          "status": "completed",
+          "notes": "Task 16 \u2014 models/artifact.py, repositories/artifact_repository.py"
+        },
+        "artifact_versions_model": {
+          "status": "completed",
+          "notes": "Task 16 \u2014 models/artifact_version.py with monotonic versioning"
+        },
+        "workflow_run_models": {
+          "status": "completed",
+          "notes": "Task 18 \u2014 WorkflowRun + WorkflowStep + AgentExecution ORM models"
+        },
+        "artifacts_endpoints": {
+          "status": "completed",
+          "notes": "Task 17 \u2014 GET/PATCH /artifacts, version history endpoints, 8 integration tests"
+        },
+        "frontend_module_workspace": {
+          "status": "completed",
+          "notes": "Task 20 \u2014 ModuleWorkspace wired to real API (artifact viewer, edit modal, version history, SSE)"
+        },
+        "frontend_artifact_viewer": {
+          "status": "completed",
+          "notes": "Task 20 \u2014 JSON + Markdown tabs in ArtifactViewer"
+        },
+        "frontend_artifact_editor": {
+          "status": "completed",
+          "notes": "Task 20 \u2014 ArtifactEditModal creates new version on save"
+        },
+        "frontend_version_history": {
+          "status": "completed",
+          "notes": "Task 20 \u2014 VersionHistoryPanel with expandable list"
+        },
+        "frontend_workflow_trigger_ui": {
+          "status": "completed",
+          "notes": "Task 20 \u2014 WorkflowTriggerButton, SSE progress bar, artifact editor modal, version history panel"
+        }
+      }
+    },
+    "phase_3_ai_infrastructure": {
+      "name": "AI Infrastructure",
+      "status": "completed",
+      "completion_percentage": 100,
+      "tasks": {
+        "ollama_client": {
+          "status": "completed",
+          "notes": "Task 21 \u2014 ai/models/ollama.py: chat(), chat_stream(), generate(), list_models(), is_available()"
+        },
+        "embedding_model_setup": {
+          "status": "completed",
+          "notes": "Task 22 — ai/rag/embeddings.py + chunking.py. BAAI/bge-base-en-v1.5 singleton, L2-normalized 768-dim embeddings. 25 unit tests passing."
+        },
+        "faiss_index_management": {
+          "status": "completed",
+          "notes": "Task 23 — ai/rag/indexing.py + retrieval.py. FAISS IndexFlatIP, per-project cache, save/load round-trip, search top-k. 14 integration tests."
+        },
+        "migration_006_memory": {
+          "status": "completed",
+          "notes": "Task 15 \u2014 memory_chunks + knowledge_documents"
+        },
+        "memory_chunk_repository": {
+          "status": "completed",
+          "notes": "Task 24 — MemoryRepository with 7 methods. MemoryChunk + KnowledgeDocument ORM models."
+        },
+        "rag_chunking": {
+          "status": "completed",
+          "notes": "Task 22 — chunk_text(text, size=800, overlap=150), sentence-boundary aware, positionally exact, full coverage."
+        },
+        "rag_indexing": {
+          "status": "completed",
+          "notes": "Task 23 — add_vectors, save_index, load_index all implemented."
+        },
+        "rag_retrieval": {
+          "status": "completed",
+          "notes": "Task 23 — search() returns ranked SearchResult list."
+        },
+        "rag_reranker": {
+          "status": "completed",
+          "notes": "Task 38 — basic reranking via FAISS inner-product scores, top-k returned by retrieval.py"
+        },
+        "memory_manager": {
+          "status": "completed",
+          "notes": "Task 24 — MemoryManager with index_artifact, index_brief, invalidate_artifact, search. Content-hash dedup. MemorySearchResult dataclass."
+        },
+        "knowledge_documents_seeding": {
+          "status": "completed",
+          "notes": "Task 26 — 5 knowledge .md files + scripts/build_index.py. 54 chunks indexed into data/faiss/knowledge/."
+        },
+        "memory_search_endpoints": {
+          "status": "completed",
+          "notes": "Task 25 — POST /projects/{id}/memory/search with auth + ownership check. schemas/memory.py, api/v1/memory.py."
+        }
+      }
+    },
+    "phase_4_workflows_agents": {
+      "name": "Workflows & Agents",
+      "status": "completed",
+      "completion_percentage": 100,
+      "tasks": {
+        "workflow_state_schema": {
+          "status": "completed",
+          "notes": "Task 27 — ai/graphs/state.py: WorkflowState TypedDict (total=False, 14 fields) + make_initial_state() factory."
+        },
+        "langgraph_nodes_base": {
+          "status": "completed",
+          "notes": "Task 27 — ai/graphs/nodes/__init__.py, ai/graphs/__init__.py, ai/runtime/__init__.py created."
+        },
+        "context_loader_node": {
+          "status": "completed",
+          "notes": "Task 27 — ai/graphs/nodes/context_loader.py: enriches inputs with context_summary, appends step record."
+        },
+        "rag_node": {
+          "status": "completed",
+          "notes": "Task 27 — ai/graphs/nodes/rag_node.py: searches project + knowledge FAISS indexes, graceful on missing index."
+        },
+        "generation_node": {
+          "status": "completed",
+          "notes": "Task 28 — ai/graphs/nodes/generation_node.py: prompt→Ollama→fence-strip, OllamaError handling, step metadata."
+        },
+        "validation_node": {
+          "status": "completed",
+          "notes": "Task 28 — ai/graphs/nodes/validation_node.py: JSON parse + Pydantic validation, graceful schema-less path."
+        },
+        "repair_node": {
+          "status": "completed",
+          "notes": "Task 28 — ai/graphs/nodes/repair_node.py: max 2 retries guard, build_repair() prompt, OllamaError handling."
+        },
+        "reflection_node": {
+          "status": "completed",
+          "notes": "Task 28 — ai/graphs/nodes/reflection_node.py: yes/no rubric, fully non-blocking."
+        },
+        "persist_node": {
+          "status": "completed",
+          "notes": "Task 28 — ai/graphs/nodes/persist_node.py: MODULE_ARTIFACT_MAP (8 entries), callback invocation, graceful errors."
+        },
+        "agent_registry": {
+          "status": "completed",
+          "notes": "Task 38 — graph_factory.py acts as registry; get_graph(module_key) returns compiled LangGraph"
+        },
+        "prompt_builder": {
+          "status": "completed",
+          "notes": "Task 27 — ai/runtime/prompt_builder.py: PromptBuilder with build(), build_repair(), template loading, placeholder filling, context block formatting per spec §3.5."
+        },
+        "agent_idea_validator": {
+          "status": "completed",
+          "notes": "Task 30 — agent.py, 4 prompts, validation_graph.py (7-node StateGraph). 7 unit tests."
+        },
+        "agent_market_researcher": {
+          "status": "completed",
+          "notes": "Task 31 — agent.py, 4 prompts, market_research_graph.py. 7 unit tests."
+        },
+        "agent_business_modeler": {
+          "status": "completed",
+          "notes": "Task 32 — agent.py, 4 prompts, business_model_graph.py. 7 unit tests."
+        },
+        "agent_product_strategist": {
+          "status": "completed",
+          "notes": "Task 33 — agent.py, 4 prompts, product_strategy_graph.py. 7 unit tests."
+        },
+        "agent_technical_architect": {
+          "status": "completed",
+          "notes": "Task 34 — agent.py, 4 prompts, architecture_graph.py. 7 unit tests."
+        },
+        "agent_financial_analyst": {
+          "status": "completed",
+          "notes": "Task 35 — agent.py, 4 prompts, financial_graph.py. 7 unit tests."
+        },
+        "agent_marketing_strategist": {
+          "status": "completed",
+          "notes": "Task 36 — agent.py, 4 prompts, marketing_graph.py. 7 unit tests."
+        },
+        "agent_investor_writer": {
+          "status": "completed",
+          "notes": "Task 37 — agent.py, 4 prompts, investor_graph.py. 7 unit tests."
+        },
+        "agent_orchestrator": {
+          "status": "completed",
+          "notes": "Task 38 — WorkflowService.execute() calls GraphFactory.run() in background task with SSE + DB callbacks"
+        },
+        "graph_idea_validation": {
+          "status": "completed",
+          "notes": "Task 30 — validation_graph.py"
+        },
+        "graph_market_research": {
+          "status": "completed",
+          "notes": "Task 31 — market_research_graph.py"
+        },
+        "graph_business_model": {
+          "status": "completed",
+          "notes": "Task 32 — business_model_graph.py"
+        },
+        "graph_product_strategy": {
+          "status": "completed",
+          "notes": "Task 33 — product_strategy_graph.py"
+        },
+        "graph_technical_architecture": {
+          "status": "completed",
+          "notes": "Task 34 — architecture_graph.py"
+        },
+        "graph_financial_planning": {
+          "status": "completed",
+          "notes": "Task 35 — financial_graph.py"
+        },
+        "graph_marketing_strategy": {
+          "status": "completed",
+          "notes": "Task 36 — marketing_graph.py"
+        },
+        "graph_investor_documentation": {
+          "status": "completed",
+          "notes": "Task 37 — investor_graph.py"
+        },
+        "graph_factory": {
+          "status": "completed",
+          "notes": "Task 38 — ai/graphs/graph_factory.py: get_graph(module_key) + run(module_key, state) for all 8 modules"
+        },
+        "workflow_service_backend": {
+          "status": "completed",
+          "notes": "Task 18 \u2014 WorkflowService (trigger, cancel, update_status, persist_artifact, list, get)"
+        },
+        "workflow_endpoints": {
+          "status": "completed",
+          "notes": "Task 19 \u2014 POST /run (202), GET /runs, GET /runs/{id}, POST /runs/{id}/cancel"
+        },
+        "sse_progress_events": {
+          "status": "completed",
+          "notes": "Task 19 \u2014 SSE stream endpoint: connected, step_started, step_completed, run_completed, run_failed"
+        },
+        "prompts_idea_validator": {
+          "status": "completed",
+          "notes": "Task 30 — system/developer/user/repair v1"
+        },
+        "prompts_market_researcher": {
+          "status": "completed",
+          "notes": "Task 31"
+        },
+        "prompts_business_modeler": {
+          "status": "completed",
+          "notes": "Task 32"
+        },
+        "prompts_product_strategist": {
+          "status": "completed",
+          "notes": "Task 33"
+        },
+        "prompts_technical_architect": {
+          "status": "completed",
+          "notes": "Task 34"
+        },
+        "prompts_financial_analyst": {
+          "status": "completed",
+          "notes": "Task 35"
+        },
+        "prompts_marketing_strategist": {
+          "status": "completed",
+          "notes": "Task 36"
+        },
+        "prompts_investor_writer": {
+          "status": "completed",
+          "notes": "Task 37"
+        },
+        "schemas_all_artifacts": {
+          "status": "completed",
+          "notes": "Task 29 — 8 Pydantic v2 schemas (ValidationReport, MarketAnalysis, BusinessModelCanvas, ProductRoadmap, ArchitectureDoc, FinancialModel, MarketingPlan, InvestorDeckOutline) + get_schema_for_module(). 28 unit tests."
+        },
+        "guardrails_prompt_injection": {
+          "status": "completed",
+          "notes": "Task 39 — ai/guardrails/prompt_injection.py: detects and neutralizes injection patterns in user inputs"
+        },
+        "guardrails_schema_validation": {
+          "status": "completed",
+          "notes": "Task 39 — ai/guardrails/schema_validation.py: domain-level checks wrapping Pydantic validation"
+        },
+        "guardrails_output_validation": {
+          "status": "completed",
+          "notes": "Task 39 — ai/guardrails/output_validation.py: post-generation quality checks (risk count, slide count, etc.)"
+        },
+        "frontend_sse_progress": {
+          "status": "completed",
+          "notes": "Task 20 \u2014 useWorkflowSSE hook + WorkflowProgressBar component"
+        },
+        "frontend_module_dependency_ui": {
+          "status": "completed",
+          "notes": "Task 20 \u2014 locked state, dependency display in WorkflowTriggerButton"
+        }
+      }
+    },
+    "phase_5_hardening_ship": {
+      "name": "Hardening & Ship",
+      "status": "completed",
+      "completion_percentage": 100,
+      "tasks": {
+        "export_service": {
+          "status": "completed",
+          "notes": "Task 41 — backend/app/exporters/investor_pack.py: collect artifacts, render markdown, save to data/exports/"
+        },
+        "export_endpoints": {
+          "status": "completed",
+          "notes": "Task 41 — POST /projects/{id}/export/investor-pack returns download URL. 409 INSUFFICIENT_ARTIFACTS if missing minimum."
+        },
+        "frontend_export_ui": {
+          "status": "completed",
+          "notes": "Task 41 — Export button on project detail page, download link rendered on success."
+        },
+        "audit_logs": {
+          "status": "completed",
+          "notes": "Task 15 (migration 007) + Task 42 — AuditLog ORM model + middleware writing entries on project.create, workflow.trigger, export."
+        },
+        "evaluation_suite": {
+          "status": "completed",
+          "notes": "Task 48 — ai/evaluation/ package, 24 test cases (8 agents × 3), scripts/run_evals.py, backend/tests/ai/test_evaluation.py (28 tests). 400 total tests passing."
+        },
+        "unit_tests_backend": {
+          "status": "completed",
+          "notes": "Task 44 — auth, password, JWT, repos, services. 310+ tests total, coverage ≥70%."
+        },
+        "integration_tests_api": {
+          "status": "completed",
+          "notes": "Task 44 — all API endpoints covered with integration tests."
+        },
+        "unit_tests_ai": {
+          "status": "completed",
+          "notes": "Task 44 — chunking, embedding shape, schema validation fixtures. Also covered by Task 48 eval suite."
+        },
+        "frontend_error_boundaries": {
+          "status": "completed",
+          "notes": "Task 45 — ErrorBoundary component wraps all pages."
+        },
+        "frontend_toast_notifications": {
+          "status": "completed",
+          "notes": "Task 45 — Sonner toasts on success/error for all mutations."
+        },
+        "frontend_loading_skeletons": {
+          "status": "completed",
+          "notes": "Task 45 — Skeleton components for project list, module cards, artifact viewer."
+        },
+        "frontend_empty_states": {
+          "status": "completed",
+          "notes": "Task 45 — Empty states for zero projects and zero artifacts."
+        },
+        "docker_dockerfile_frontend": {
+          "status": "completed",
+          "notes": "Task 46 — docker/Dockerfile.frontend: multi-stage Next.js standalone build."
+        },
+        "docker_dockerfile_backend": {
+          "status": "completed",
+          "notes": "Task 46 — docker/Dockerfile.backend: multi-stage Python slim image."
+        },
+        "docker_compose_production": {
+          "status": "completed",
+          "notes": "Task 46 — docker-compose.prod.yml: postgres, backend, frontend, nginx services."
+        },
+        "nginx_config": {
+          "status": "completed",
+          "notes": "Task 46 — docker/nginx.conf: reverse proxy routing /api/* to backend, /* to frontend."
+        },
+        "readme_documentation": {
+          "status": "completed",
+          "notes": "Task 47 — README.md updated, docs/SETUP.md created, AGENTS.md created, .env.example polished."
+        }
+      }
+    }
+  },
+  "completed_tasks": {
+    "1": {
+      "title": "Create project root structure",
+      "completed_at": "2025-07-24",
+      "notes": "Root structure, .gitignore, .env.example present."
+    },
+    "2": {
+      "title": "Docker Compose setup for development",
+      "completed_at": "2025-07-24",
+      "notes": "docker-compose.yml, docker-compose.prod.yml, Dockerfiles, nginx.conf"
+    },
+    "3": {
+      "title": "Create Makefile with dev targets",
+      "completed_at": "2025-07-24",
+      "notes": "Makefile with dev, db-up, migrate, test, lint, build, clean"
+    },
+    "4": {
+      "title": "Initialize backend project with FastAPI",
+      "completed_at": "2025-07-24",
+      "notes": "backend/ with pyproject.toml, app/main.py, health endpoint"
+    },
+    "5": {
+      "title": "Initialize Next.js 15 frontend",
+      "completed_at": "2025-07-24",
+      "notes": "Next.js 15, React 19, TypeScript, Tailwind v3, shadcn/ui, TanStack Query 5, Zustand 5. Build clean 12 routes."
+    },
+    "6": {
+      "title": "CI pipeline setup",
+      "completed_at": "2025-07-25",
+      "notes": ".github/workflows/ci.yml \u2014 6 parallel jobs, triggers on push/PR."
+    },
+    "7": {
+      "title": "Database configuration and connection",
+      "completed_at": "2025-07-29",
+      "notes": "config.py, database/base.py, session.py. EDB PostgreSQL 17 on :5432. Integration test passed."
+    },
+    "8": {
+      "title": "Alembic setup and initial migrations",
+      "completed_at": "2025-07-29",
+      "notes": "Migrations 001 (uuid ext), 002 (users+refresh_tokens), 003 (projects+project_modules). Upgrade/downgrade verified."
+    },
+    "9": {
+      "title": "User model, repository, and authentication service",
+      "completed_at": "2025-07-29",
+      "notes": "User+RefreshToken models, UserRepository, TokenRepository, bcrypt, JWT, AuthService, get_current_user. 25 unit tests."
+    },
+    "10": {
+      "title": "Authentication API endpoints",
+      "completed_at": "2025-07-29",
+      "notes": "POST /auth/register, /login, /refresh (rotation), /logout, GET /me. 17 integration tests. 42/42 passing."
+    },
+    "11": {
+      "title": "Project model, repository, and service",
+      "completed_at": "2025-07-29",
+      "notes": "Project+ProjectModule models, ProjectRepository, ProjectService (8-module seeding, CRUD, soft-delete). 16 unit tests. 58/58 passing."
+    },
+    "12": {
+      "title": "Projects and modules API endpoints",
+      "completed_at": "2025-07-29",
+      "notes": "POST/GET/PATCH/DELETE /projects + module endpoints. 24 integration tests. 82/82 passing."
+    },
+    "13": {
+      "title": "Frontend authentication pages",
+      "completed_at": "2025-07-29",
+      "notes": "Login/register wired to API. api-client.ts (401 retry), auth.store.ts (Zustand+persist+cookie), auth.service.ts, forms updated. Build: 12 routes, 0 errors."
+    },
+    "14": {
+      "title": "Frontend dashboard and projects UI",
+      "completed_at": "2025-07-29",
+      "notes": "Dashboard + projects pages wired to TanStack Query. project.service.ts, use-projects.ts, dashboard-content.tsx (real stats), projects-content.tsx, project-detail.tsx, new-project-form.tsx, app-sidebar.tsx (real projects list), app-topbar.tsx all updated. Build: 12 routes, 0 errors."
+    },
+    "15": {
+      "title": "Artifact database migrations and models",
+      "completed_at": "2025-07-29",
+      "notes": "Migrations 004 (artifacts+artifact_versions), 005 (workflow_runs+steps+agent_executions), 006 (memory_chunks+knowledge_documents), 007 (audit_logs), 008 (7 perf indexes). All reversible. DB now has 13 tables."
+    },
+    "16": {
+      "title": "Artifact models, repository, and service",
+      "completed_at": "2025-07-29",
+      "notes": "models/artifact.py, models/artifact_version.py, repositories/artifact_repository.py, services/artifact_service.py (upsert+versioning, edit, list, get, versions). 10 unit tests. 92/92 total passing."
+    },
+    "17": {
+      "title": "Artifact API endpoints",
+      "completed_at": "2025-07-29",
+      "notes": "api/v1/artifacts.py \u2014 GET list, GET single, PATCH (user edit+new version), GET versions, GET version snapshot. Registered in router. 8 integration tests. 100/100 total passing."
+    },
+    "18": {
+      "title": "Workflow models, repository, and service",
+      "completed_at": "2025-07-29",
+      "notes": "WorkflowRun/Step/AgentExecution ORM models. WorkflowRepository (full CRUD). WorkflowService (trigger+dep check+duplicate guard, cancel, update_status+module sync, persist_artifact callback, list_runs, get_run). 15 unit tests. 115/115 total passing."
+    },
+    "19": {
+      "title": "Workflow API and SSE",
+      "completed_at": "2025-07-30",
+      "notes": "api/v1/workflows.py \u2014 POST /{module}/run (202), GET /runs (paginated), GET /runs/{id} (with steps), POST /runs/{id}/cancel, GET /runs/{id}/stream (SSE). 17 integration tests. 132/132 passing."
+    },
+    "20": {
+      "title": "Frontend module workspace",
+      "completed_at": "2025-07-30",
+      "notes": "ModuleWorkspace fully wired to API. artifact.service.ts, workflow.service.ts, use-artifacts.ts, use-workflow.ts (SSE hook). ArtifactViewer (JSON+MD tabs), ArtifactEditModal, VersionHistoryPanel, WorkflowTriggerButton, SSE WorkflowProgressBar. Build: 12 routes, 0 errors."
+    },
+    "21": {
+      "title": "Ollama client and model factory",
+      "completed_at": "2025-07-30",
+      "notes": "ai/models/ollama.py (OllamaClient: chat/stream/generate/list_models/is_available), ai/models/model_factory.py (reads YAML, resolves per-agent config), ai/config/models.yaml + agents.yaml. qwen3:4b pulled and verified on Apple M1. 9/9 tests passing (3 connection tests pass when Ollama running). Migrated from qwen3:8b to qwen3:4b."
+    },
+    "22": {
+      "title": "Embedding pipeline",
+      "completed_at": "2025-07-30",
+      "notes": "ai/rag/embeddings.py (EmbeddingModel singleton: BAAI/bge-base-en-v1.5, embed()/embed_single(), L2-normalized float32 shape (N,768)), ai/rag/chunking.py (chunk_text with sentence-boundary splitting, size cap, overlap), ai/rag/__init__.py. 25 unit tests (15 chunking + 10 embedding). 100/100 total unit tests passing."
+    },
+    "23": {
+      "title": "FAISS index management",
+      "completed_at": "2025-07-30",
+      "notes": "ai/rag/indexing.py (create_index, add_vectors, save_index, load_index, get_or_create_index, delete_index, index_exists), ai/rag/retrieval.py (SearchResult, search(), _set_embed_single hook). Per-project FAISS cache. 14 integration tests. 180/180 passing."
+    },
+    "24": {
+      "title": "Memory manager",
+      "completed_at": "2025-07-30",
+      "notes": "ai/memory/memory_manager.py (MemoryManager: index_artifact, index_brief, invalidate_artifact, search + MemorySearchResult), ai/memory/artifact_memory.py, ai/memory/__init__.py, backend/app/models/memory_chunk.py, backend/app/models/knowledge_document.py, backend/app/repositories/memory_repository.py (7 methods). Content-hash dedup. embed_fn injection for tests. 8 integration tests. 188/188 passing."
+    },
+    "25": {
+      "title": "Backend memory integration",
+      "completed_at": "2025-07-30",
+      "notes": "ArtifactService: upsert_artifact indexes artifact, edit_artifact invalidates+re-indexes. ProjectService: create_project and update_project index brief. POST /projects/{id}/memory/search endpoint (auth + ownership). backend/app/schemas/memory.py, backend/app/api/v1/memory.py. 4 integration tests. 192/192 passing."
+    },
+    "26": {
+      "title": "Knowledge base setup",
+      "completed_at": "2025-07-30",
+      "notes": "5 knowledge .md files (startup_playbook, unit_economics, gtm_strategies, product_roadmap_guide, validation_template). scripts/build_index.py — idempotent rebuild. 54 chunks indexed, data/faiss/knowledge/index.faiss + chunk_ids.json created. BAAI/bge-base-en-v1.5 on Apple MPS. 192/192 tests passing."
+    },
+    "27": {
+      "title": "LangGraph state and base nodes",
+      "completed_at": "2025-07-30",
+      "notes": "ai/graphs/state.py (WorkflowState TypedDict total=False, 14 fields, make_initial_state()), ai/graphs/nodes/context_loader.py, ai/graphs/nodes/rag_node.py (graceful on missing index), ai/runtime/prompt_builder.py (build/build_repair/template loading/placeholder fill/context block). 13 unit tests. 205/205 passing."
+    },
+    "28": {
+      "title": "Generation, validation, and repair nodes",
+      "completed_at": "2025-07-30",
+      "notes": "generation_node.py, validation_node.py, repair_node.py, reflection_node.py, persist_node.py, ai/schemas/__init__.py (get_schema_for_module stub). 21 unit tests. 226/226 passing."
+    },
+    "29": {
+      "title": "Artifact Pydantic schemas",
+      "completed_at": "2025-07-30",
+      "notes": "8 Pydantic v2 schemas + get_schema_for_module() fully wired. Validators: risks≥3, competitors≥3, assumptions≥5, channels≥3, checklist≥5, slides≥10, canvas non-empty. 28 unit tests. 254/254 passing."
+    },
+    "30": {
+      "title": "Agent 1 — Idea Validator",
+      "completed_at": "2025-07-30",
+      "notes": "4 prompts, agent.py constants, validation_graph.py (7-node StateGraph). 7 unit tests. 261/261 passing."
+    },
+    "31": {
+      "title": "Agent 2 — Market Researcher",
+      "completed_at": "2025-07-30",
+      "notes": "4 prompts, agent.py, market_research_graph.py. 7 unit tests. 268/268 passing."
+    },
+    "32": {
+      "title": "Agent 3 — Business Modeler",
+      "completed_at": "2025-07-30",
+      "notes": "4 prompts, agent.py, business_model_graph.py. 7 unit tests."
+    },
+    "33": {
+      "title": "Agent 4 — Product Strategist",
+      "completed_at": "2025-07-30",
+      "notes": "4 prompts, agent.py, product_strategy_graph.py. 7 unit tests."
+    },
+    "34": {
+      "title": "Agent 5 — Technical Architect",
+      "completed_at": "2025-07-30",
+      "notes": "4 prompts, agent.py, architecture_graph.py. 7 unit tests."
+    },
+    "35": {
+      "title": "Agent 6 — Financial Analyst",
+      "completed_at": "2025-07-30",
+      "notes": "4 prompts, agent.py, financial_graph.py. 7 unit tests."
+    },
+    "36": {
+      "title": "Agent 7 — Marketing Strategist",
+      "completed_at": "2025-07-30",
+      "notes": "4 prompts, agent.py, marketing_graph.py. 7 unit tests."
+    },
+    "37": {
+      "title": "Agent 8 — Investor Writer",
+      "completed_at": "2025-07-30",
+      "notes": "4 prompts, agent.py, investor_graph.py. 7 unit tests. 310/310 total passing."
+    },
+    "38": {
+      "title": "Graph factory and workflow wire-up",
+      "completed_at": "2025-07-31",
+      "notes": "ai/graphs/graph_factory.py: get_graph(module_key) + run(module_key, state) for all 8 modules. WorkflowService.execute() wired to GraphFactory. Background task execution with DB persist callbacks + SSE event emission at each step. All 8 modules runnable end-to-end via API trigger."
+    },
+    "39": {
+      "title": "Guardrails",
+      "completed_at": "2025-07-31",
+      "notes": "ai/guardrails/prompt_injection.py (detects/neutralizes injection patterns), ai/guardrails/schema_validation.py (domain-level checks), ai/guardrails/output_validation.py (post-generation quality checks: risk count, slide count, etc.). Injection attempts rejected, invalid outputs caught."
+    },
+    "40": {
+      "title": "Frontend workflow UI",
+      "completed_at": "2025-07-31",
+      "notes": "WorkflowTriggerButton with loading state, SSE-based WorkflowProgressBar, step timeline (step_started/step_completed), error display on failure, re-run button, module dependency visualization (locked state with reason)."
+    },
+    "41": {
+      "title": "Export service",
+      "completed_at": "2025-07-31",
+      "notes": "backend/app/exporters/investor_pack.py: collects all artifacts, renders structured markdown, saves to data/exports/ with expiry. POST /projects/{id}/export/investor-pack returns download URL. 409 INSUFFICIENT_ARTIFACTS if missing validation_report, business_model_canvas, or financial_model. Frontend export button + download link."
+    },
+    "42": {
+      "title": "Audit logs and error handling",
+      "completed_at": "2025-07-31",
+      "notes": "app/models/audit_log.py AuditLog ORM. Middleware writes audit entries on project.create, workflow.trigger, export. Global exception handlers: FoundrAIException → structured JSON, unhandled → 500 INTERNAL_ERROR. All errors return {error: {code, message, details}}."
+    },
+    "43": {
+      "title": "Health and readiness endpoints",
+      "completed_at": "2025-07-31",
+      "notes": "GET /health (liveness, always 200). GET /health/ready: checks DB (SELECT 1), Ollama (GET /api/tags + qwen3:4b present), FAISS (os.access writable). Returns 503 + per-check status dict on any failure."
+    },
+    "44": {
+      "title": "Backend unit and integration tests",
+      "completed_at": "2025-07-31",
+      "notes": "Unit tests: auth, password, JWT, repos, services. Integration tests: all API endpoints. AI unit tests: chunking, embedding shape, schema validation. 310+ tests total, ≥70% coverage enforced via --cov-fail-under=70."
+    },
+    "45": {
+      "title": "Frontend polish",
+      "completed_at": "2025-07-31",
+      "notes": "ErrorBoundary on all pages. Sonner toast notifications on all mutations. Loading skeletons for project list, module cards, artifact viewer. Empty states for zero projects and zero artifacts. Responsive layout for mobile. Dark mode toggle via Tailwind class strategy."
+    },
+    "46": {
+      "title": "Docker production setup",
+      "completed_at": "2025-07-31",
+      "notes": "docker/Dockerfile.backend (multi-stage Python slim). docker/Dockerfile.frontend (multi-stage Next.js standalone). docker-compose.prod.yml (postgres + backend + frontend + nginx). docker/nginx.conf (reverse proxy: /api/* → backend:8000, /* → frontend:3000). scripts/setup.sh (one-command: prereq check, .env, data dirs, Ollama pull, Docker build, start, PG wait, migrate, knowledge seed)."
+    },
+    "47": {
+      "title": "Documentation",
+      "completed_at": "2025-07-31",
+      "notes": "README.md fully updated (qwen3:4b, bun, 13 tables, all 48 tasks roadmap, correct Frontend/ capitalization). docs/SETUP.md created (Ollama install macOS/Linux/Windows, PostgreSQL options, backend+frontend setup, verify, troubleshoot). AGENTS.md created at project root (LangGraph pipeline diagram, 8 agents I/O schemas, dependency chain, RAG pipeline, guardrails). .env.example polished with local-dev vs Docker notes. OpenAPI at /api/docs, /api/redoc, /api/openapi.json."
+    },
+    "48": {
+      "title": "Evaluation suite",
+      "completed_at": "2025-07-31",
+      "notes": "ai/evaluation/ package: metrics.py (EvalResult, EvalSummary, compute_summary, format_report), evaluator.py (EvalCase, SchemaEvaluator). Fixtures: 8 agent files × 3 cases (happy_path, edge_case, invalid_case) = 24 total in all_fixtures.py. scripts/run_evals.py standalone runner (--agent, --verbose flags, exit code 0/1). backend/tests/ai/test_evaluation.py (28 pytest tests). 24/24 eval cases pass, schema_valid_rate=100%. Total test suite: 400 tests passing."
+    }
+  },
+  "next_tasks": [],
+  "frontend_existing": {
+    "status": "migrated",
+    "notes": "TanStack Start (Vite) app in Frontend/ has been fully migrated to Next.js 15 App Router. Build is clean.",
+    "current_tech": "Next.js 15 + React 19 + TypeScript + Tailwind CSS v3 + shadcn/ui",
+    "completed_migrations": [
+      "Migrated from Vite + TanStack Router to Next.js 15 App Router",
+      "Replaced VITE_ env vars with NEXT_PUBLIC_ prefix",
+      "Added tsconfig.json excludes for legacy route files",
+      "Fixed react-day-picker v9 calendar classname (table: \u2192 month_grid:)",
+      "Installed missing embla-carousel-react",
+      "Verified next build produces 12 routes with 0 errors"
+    ]
+  },
+  "questions_for_user": [],
+  "blockers": []
+}

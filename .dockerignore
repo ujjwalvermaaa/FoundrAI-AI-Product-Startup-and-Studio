@@ -1,0 +1,78 @@
+# ============================================================
+# .dockerignore — exclude files from Docker build context
+# ============================================================
+
+# Secrets — NEVER include in images
+.env
+*.env
+backend/.env
+Frontend/.env.local
+Frontend/.env*.local
+
+# Version control
+.git
+.gitignore
+
+# Python build artifacts
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.venv
+venv/
+*.egg
+
+# Node/Frontend build artifacts
+Frontend/node_modules
+Frontend/.next
+Frontend/.turbo
+Frontend/out
+node_modules
+
+# Test and dev files
+backend/tests/
+.pytest_cache
+.coverage
+htmlcov/
+*.log
+
+# Data directories (mounted as volumes at runtime)
+data/faiss/
+data/exports/
+data/uploads/
+logs/
+
+# IDE and OS files
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Documentation
+Docs/
+*.md
+!README.md
+
+# Tracking files
+progress.json
+memory.json
+mission.json
+
+# Plan/spec files
+.plan/
+
+# Scripts not needed in container
+scripts/setup.sh
+scripts/reset_dev.py
+scripts/seed_database.py
+
+# Temporary files
+tmp/
+temp/
+*.tmp

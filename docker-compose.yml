@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: foundrai-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-foundrai}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-foundrai_dev}
+      POSTGRES_DB: ${POSTGRES_DB:-foundrai}
+    ports:
+      - "${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init_db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-foundrai} -d ${POSTGRES_DB:-foundrai}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - foundrai-net
+
+volumes:
+  postgres_data:
+    name: foundrai_postgres_data
+
+networks:
+  foundrai-net:
+    name: foundrai_network
+    driver: bridge
