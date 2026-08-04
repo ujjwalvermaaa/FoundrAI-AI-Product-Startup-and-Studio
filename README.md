@@ -352,6 +352,9 @@ In separate terminals:
 # Terminal 1 — backend
 cd backend && poetry run uvicorn app.main:app --reload --port 8000
 
+
+cd /Users/ujjwal/Desktop/FoundrAI/backend && /Users/ujjwal/.local/bin/poetry run uvicorn app.main:app --reload --port 8000
+
 # Terminal 2 — frontend
 cd Frontend && bun dev
 ```

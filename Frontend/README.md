@@ -158,3 +158,4 @@ Check the browser console for errors. Most commonly caused by a missing `VITE_AP
 
 - This is the frontend only. The FoundrAI backend (FastAPI + Python) is a separate service. See the project documentation in `/docs` for the full system architecture.
 - The app uses TanStack Start with Vite.
+

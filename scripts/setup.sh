@@ -157,3 +157,4 @@ echo -e "  Logs:   docker compose -f docker-compose.prod.yml logs -f"
 echo ""
 echo -e "${YELLOW}IMPORTANT:${NC} Make sure Ollama is running: ollama serve"
 echo ""
+

@@ -27,3 +27,4 @@ Official internal documentation for **FoundrAI – AI Product & Startup Studio**
 - v1 stack: Next.js, FastAPI, PostgreSQL, JWT, LangGraph, Ollama (Qwen 3 8B), FAISS, Docker  
 
 **Document version:** 1.0 · **Status:** Draft
+
