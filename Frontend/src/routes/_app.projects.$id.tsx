@@ -377,7 +377,9 @@ function ProjectWorkspace() {
                     <Clock className="size-3" /> updated {formatDistanceToNow(new Date(project.updatedAt), { addSuffix: true })}
                   </span>
                 </div>
-                <h1 className="font-display text-4xl md:text-5xl font-semibold tracking-tight mt-3">{project.name}</h1>
+                <h1 className="font-display text-4xl md:text-5xl font-semibold tracking-tight mt-3">
+                  <span className="gradient-text">{project.name}</span>
+                </h1>
                 <p className="text-muted-foreground mt-2 max-w-2xl">{project.tagline}</p>
               </div>
               <div className="flex gap-2">
@@ -449,10 +451,10 @@ function ProjectWorkspace() {
           {/* Main panel */}
           <div className="min-w-0 space-y-6">
             {active && (
-              <Card>
+              <Card className="rounded-xl">
                 <CardHeader className="flex flex-row items-start justify-between gap-4">
                   <div>
-                    <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium">
+                    <div className="text-xs uppercase tracking-[0.18em] text-primary/90 font-medium">
                       Module {activeModuleIndex + 1} of {project.modules.length}
                     </div>
                     <CardTitle className="font-display text-2xl mt-1">{active.name}</CardTitle>
@@ -600,7 +602,7 @@ function ProjectWorkspace() {
 
             {/* Bottom cards */}
             <div className="grid md:grid-cols-2 gap-4">
-              <Card>
+              <Card className="rounded-xl">
                 <CardHeader><CardTitle className="font-display text-lg">Run history</CardTitle></CardHeader>
                 <CardContent className="text-sm">
                   {!runs || runs.filter((r) => r.module_key === moduleKey).length === 0 ? (
@@ -624,7 +626,7 @@ function ProjectWorkspace() {
                   )}
                 </CardContent>
               </Card>
-              <Card>
+              <Card className="rounded-xl">
                 <CardHeader><CardTitle className="font-display text-lg">Module details</CardTitle></CardHeader>
                 <CardContent>
                   {activeBackendModule ? (

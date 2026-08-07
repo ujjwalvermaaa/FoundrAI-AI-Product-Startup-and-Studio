@@ -148,7 +148,9 @@ function ChatPage() {
           </motion.div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="font-display text-2xl font-semibold tracking-tight">Foundr</h1>
+              <h1 className="font-display text-2xl font-semibold tracking-tight">
+                <span className="gradient-text">Foundr</span>
+              </h1>
               <Badge variant="outline" className="text-[10px] uppercase tracking-wider border-emerald-500/40 text-emerald-500 bg-emerald-500/5 gap-1">
                 <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" /> Online
               </Badge>

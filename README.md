@@ -50,7 +50,7 @@ Every workflow step is streamed live to the frontend via **Server-Sent Events (S
 - Full health/readiness probes at `/health` and `/health/ready`
 
 **Frontend**
-- Next.js 15 App Router with 12 routes — login, register, dashboard, projects, module workspace
+- Vite + React 19 with TanStack Router — 35+ routes covering auth, dashboard, projects, module workspace, analytics, billing, settings, and public pages
 - Live SSE progress bar, artifact viewer (JSON + markdown tabs), artifact editor, version history
 - Dark mode, toast notifications, loading skeletons, error boundaries, responsive layout
 
@@ -79,19 +79,20 @@ Every workflow step is streamed live to the frontend via **Server-Sent Events (S
 ### Frontend
 | Technology | Version | Purpose |
 |---|---|---|
-| Next.js | 15.1 | React framework, App Router, SSR |
+| Vite | 5 | Build tool and dev server |
 | React | 19 | UI library |
-| TypeScript | 5.7 | Type safety |
-| Tailwind CSS | 3.4 | Utility-first styling |
-| shadcn/ui | latest | Component library (New York style) |
+| TypeScript | 5.8 | Type safety |
+| TanStack Router | 1 | File-based client-side routing |
+| Tailwind CSS | 4 | Utility-first styling |
+| shadcn/ui (Radix UI) | latest | Component primitives |
 | TanStack Query | 5 | Server state management, caching |
 | Zustand | 5 | Client auth state with persistence |
-| Framer Motion | 11 | Animations |
+| Framer Motion | 12 | Animations |
 | Zod | 3 | Schema validation |
 | React Hook Form | 7 | Form handling |
 | Recharts | 2 | Data visualisation |
-| Sonner | 1 | Toast notifications |
-| Lucide React | 0.468 | Icons |
+| Sonner | 2 | Toast notifications |
+| Lucide React | latest | Icons |
 
 ### Backend
 | Technology | Version | Purpose |
@@ -126,8 +127,8 @@ Every workflow step is streamed live to the frontend via **Server-Sent Events (S
 |---|---|
 | Docker + Docker Compose v2 | Containerisation, dev and prod stacks |
 | nginx | Reverse proxy routing frontend + backend |
-| Poetry | Python dependency management |
-| bun | Frontend package manager and dev server |
+| Poetry 2.x | Python dependency management |
+| bun 1.x | Frontend package manager and dev server |
 | GitHub Actions | CI/CD pipeline (lint, type-check, test) |
 
 ---
@@ -136,18 +137,24 @@ Every workflow step is streamed live to the frontend via **Server-Sent Events (S
 
 ```
 FoundrAI/
-├── Frontend/                  # Next.js 15 App Router (capital F)
+├── Frontend/                  # Vite + React 19 + TanStack Router (capital F)
 │   └── src/
-│       ├── app/
-│       │   ├── (auth)/        # login, register
-│       │   └── (dashboard)/   # dashboard, projects, modules
-│       ├── components/        # UI components (shadcn/ui + custom)
-│       ├── hooks/             # Custom React hooks
-│       ├── services/          # API service layer
-│       ├── store/             # Zustand stores (auth.store.ts)
-│       ├── lib/               # API client, utils
-│       ├── types/             # TypeScript type definitions
-│       └── middleware.ts      # Auth guard
+│       ├── main.tsx           # Entry point — renders <RouterProvider>
+│       ├── router.tsx         # TanStack Router + QueryClient setup
+│       ├── routes/            # File-based route definitions (35+ routes)
+│       │   ├── index.tsx      # Landing page
+│       │   ├── auth.*         # login, signup, forgot, reset, verify
+│       │   ├── _app.*         # Authenticated layout routes
+│       │   │   ├── dashboard, projects, modules, analytics
+│       │   │   ├── canvas, roadmap, checklist, competitors
+│       │   │   ├── chat, docs, search, notifications
+│       │   │   ├── billing, settings, profile, help
+│       │   │   └── health (frontend health check)
+│       │   └── about, pricing, contact, terms, privacy, onboarding
+│       ├── components/        # UI components (ai, charts, dashboard, forms, layout, etc.)
+│       ├── hooks/             # use-auth, use-projects, use-artifacts, use-workflow
+│       ├── lib/               # api-client.ts, types.ts, utils.ts
+│       └── assets/
 │
 ├── backend/
 │   ├── app/
@@ -165,7 +172,7 @@ FoundrAI/
 │
 ├── ai/
 │   ├── agents/                # 8 domain agent modules
-│   ├── graphs/                # LangGraph graphs + 8 pipeline nodes
+│   ├── graphs/                # LangGraph graphs + 8 pipeline nodes + graph_factory.py
 │   ├── rag/                   # Chunking, embeddings, FAISS, retrieval
 │   ├── memory/                # Project memory manager
 │   ├── schemas/               # Pydantic artifact output schemas (8)
@@ -185,16 +192,13 @@ FoundrAI/
 │   └── run_evals.py           # AI evaluation suite
 │
 ├── docker/
-│   ├── Dockerfile.backend
-│   ├── Dockerfile.frontend
-│   └── nginx.conf
+│   ├── Dockerfile.backend     # Multi-stage: python:3.12-slim + Poetry 2.4.1
+│   ├── Dockerfile.frontend    # Multi-stage: oven/bun:1.1-alpine → node:22-alpine
+│   └── nginx.conf             # SSE unbuffered, rate limiting, security headers
 │
-├── docs/
-│   └── SETUP.md               # Detailed local setup guide
-│
-├── Docs/                      # Original spec documents
-├── docker-compose.yml         # Dev (PostgreSQL only, port 5433)
-├── docker-compose.prod.yml    # Prod (all services)
+├── Docs/                      # Spec documents + SETUP.md + LOCAL_RUN.md
+├── docker-compose.yml         # Dev: PostgreSQL only (host port 5433)
+├── docker-compose.prod.yml    # Prod: postgres + backend + frontend + nginx
 ├── Makefile                   # Dev commands
 ├── AGENTS.md                  # AI agent reference
 └── .env.example               # All environment variables (Docker/prod)
@@ -250,38 +254,38 @@ The full interactive API documentation is available at runtime:
 - **OpenAPI JSON**: `http://localhost:8000/api/openapi.json`
 
 ```
-POST   /auth/register                                     Create account
-POST   /auth/login                                        Login, get tokens
-POST   /auth/refresh                                      Rotate refresh token
-POST   /auth/logout                                       Revoke session
-GET    /auth/me                                           Current user profile
+POST   /api/v1/auth/register                                  Create account
+POST   /api/v1/auth/login                                     Login, get tokens
+POST   /api/v1/auth/refresh                                   Rotate refresh token
+POST   /api/v1/auth/logout                                    Revoke session
+GET    /api/v1/auth/me                                        Current user profile
 
-GET    /projects                                          Paginated project list
-POST   /projects                                          Create project (seeds 8 modules)
-GET    /projects/{id}                                     Project detail with modules
-PATCH  /projects/{id}                                     Update (re-indexes brief)
-DELETE /projects/{id}                                     Soft delete
+GET    /api/v1/projects                                       Paginated project list
+POST   /api/v1/projects                                       Create project (seeds 8 modules)
+GET    /api/v1/projects/{id}                                  Project detail with modules
+PATCH  /api/v1/projects/{id}                                  Update (re-indexes brief)
+DELETE /api/v1/projects/{id}                                  Soft delete
 
-GET    /projects/{id}/modules                             Module list
-GET    /projects/{id}/modules/{key}                       Module detail + dependencies
+GET    /api/v1/projects/{id}/modules                          Module list
+GET    /api/v1/projects/{id}/modules/{key}                    Module detail + dependencies
 
-POST   /projects/{id}/workflows/{key}/run                 Trigger AI workflow → 202
-GET    /projects/{id}/workflows/runs                      Paginated run list
-GET    /projects/{id}/workflows/runs/{run_id}             Run detail with steps
-POST   /projects/{id}/workflows/runs/{run_id}/cancel      Cancel run
-GET    /projects/{id}/workflows/runs/{run_id}/stream      SSE live progress
+POST   /api/v1/projects/{id}/workflows/{key}/run              Trigger AI workflow → 202
+GET    /api/v1/projects/{id}/workflows/runs                   Paginated run list
+GET    /api/v1/projects/{id}/workflows/runs/{run_id}          Run detail with steps
+POST   /api/v1/projects/{id}/workflows/runs/{run_id}/cancel   Cancel run
+GET    /api/v1/projects/{id}/workflows/runs/{run_id}/stream   SSE live progress
 
-GET    /projects/{id}/artifacts                           List artifacts
-GET    /projects/{id}/artifacts/{aid}                     Full artifact
-PATCH  /projects/{id}/artifacts/{aid}                     Edit artifact (new version)
-GET    /projects/{id}/artifacts/{aid}/versions            Version history
-GET    /projects/{id}/artifacts/{aid}/versions/{vid}      Snapshot
+GET    /api/v1/projects/{id}/artifacts                        List artifacts
+GET    /api/v1/projects/{id}/artifacts/{aid}                  Full artifact
+PATCH  /api/v1/projects/{id}/artifacts/{aid}                  Edit artifact (new version)
+GET    /api/v1/projects/{id}/artifacts/{aid}/versions         Version history
+GET    /api/v1/projects/{id}/artifacts/{aid}/versions/{vid}   Snapshot
 
-POST   /projects/{id}/memory/search                       Semantic search
-POST   /projects/{id}/export/investor-pack                Generate export
+POST   /api/v1/projects/{id}/memory/search                    Semantic search
+POST   /api/v1/projects/{id}/export/investor-pack             Generate export
 
-GET    /health                                            Liveness probe
-GET    /health/ready                                      Readiness (DB + Ollama + FAISS)
+GET    /health                                                Liveness probe
+GET    /health/ready                                          Readiness (DB + Ollama + FAISS)
 ```
 
 All errors return consistent JSON:
@@ -299,11 +303,11 @@ All errors return consistent JSON:
 
 ## Quick Start (Local Development)
 
-> For a detailed step-by-step guide including Ollama installation, PostgreSQL setup, and troubleshooting — see **[docs/SETUP.md](./docs/SETUP.md)**.
+> For a detailed step-by-step guide including Ollama installation, PostgreSQL setup, and troubleshooting — see **[Docs/SETUP.md](./Docs/SETUP.md)**. For a concise daily-driver reference — see **[Docs/LOCAL_RUN.md](./Docs/LOCAL_RUN.md)**.
 
 ### Prerequisites
-- Python 3.11+ and [Poetry](https://python-poetry.org/docs/#installation)
-- [Node.js 20+](https://nodejs.org/) and [bun](https://bun.sh)
+- Python 3.11+ and [Poetry 2.x](https://python-poetry.org/docs/#installation)
+- [Node.js 20+](https://nodejs.org/) and [bun 1.x](https://bun.sh)
 - PostgreSQL 14+ running on port 5432 (user: `foundrai`, db: `foundrai`)
 - [Ollama](https://ollama.ai) with `qwen3:4b` pulled
 
@@ -315,7 +319,8 @@ cd FoundrAI
 
 Create the backend environment file:
 ```bash
-cp backend/.env.example backend/.env   # or create manually (see docs/SETUP.md)
+cp .env.example backend/.env
+# Edit backend/.env — set DATABASE_URL to localhost:5432, not postgres:5432
 ```
 
 ### 2. Install dependencies
@@ -340,6 +345,8 @@ cd backend && poetry run alembic upgrade head
 cd backend && poetry run python ../scripts/build_index.py
 ```
 
+First run downloads `BAAI/bge-base-en-v1.5` (~440 MB) to `~/.cache/huggingface/`. Subsequent runs are fast. Requires Ollama to be running.
+
 ### 5. Pull the LLM model
 ```bash
 ollama pull qwen3:4b
@@ -347,15 +354,15 @@ ollama pull qwen3:4b
 
 ### 6. Start services
 
-In separate terminals:
+Open three terminals:
 ```bash
-# Terminal 1 — backend
+# Terminal 1 — Ollama (if not running as a service)
+ollama serve
+
+# Terminal 2 — backend
 cd backend && poetry run uvicorn app.main:app --reload --port 8000
 
-
-cd /Users/ujjwal/Desktop/FoundrAI/backend && /Users/ujjwal/.local/bin/poetry run uvicorn app.main:app --reload --port 8000
-
-# Terminal 2 — frontend
+# Terminal 3 — frontend
 cd Frontend && bun dev
 ```
 
@@ -368,20 +375,20 @@ chmod +x scripts/setup.sh
 ./scripts/setup.sh
 ```
 
-This script builds Docker images, starts all services, runs migrations, and seeds the knowledge base automatically.
+This script builds Docker images, starts all services (postgres + backend + frontend + nginx), runs migrations, and seeds the knowledge base automatically. The app is available at `http://localhost` (nginx on port 80).
 
 ---
 
 ## Development Commands
 
-> **Note**: The Makefile uses `pnpm` for frontend targets but the project uses `bun`. Use `bun` directly for frontend commands, or use the backend/AI Makefile targets.
+> **Note**: The Makefile uses `pnpm` for frontend targets but the project uses `bun`. Use `bun` directly for all frontend commands.
 
 ```bash
 # Backend
 make dev-backend          # Start FastAPI on :8000
 make migrate              # Run Alembic migrations
 make migrate-down         # Roll back last migration
-make test-backend         # pytest with ≥70% coverage
+make test-backend         # pytest with coverage
 make lint-backend         # ruff + mypy
 make format-backend       # ruff format
 
@@ -391,9 +398,10 @@ make seed-knowledge       # Build FAISS knowledge base index
 make eval                 # Run AI evaluation suite
 
 # Frontend (use bun directly)
-cd Frontend && bun dev    # Start Next.js on :3000
-cd Frontend && bun test   # vitest
-cd Frontend && bun run build
+cd Frontend && bun dev         # Start Vite dev server on :3000
+cd Frontend && bun run build   # Production build
+cd Frontend && bun run lint    # ESLint
+cd Frontend && bun run typecheck  # tsc --noEmit
 
 # Database
 make db-up                # Start dev PostgreSQL via Docker (port 5433)
@@ -402,7 +410,7 @@ make shell-db             # Open psql shell
 
 # Docker production
 make docker-build         # Build images
-make docker-up            # Start stack
+make docker-up            # Start full prod stack
 make docker-down          # Stop stack
 make docker-logs          # Tail logs
 ```
@@ -413,7 +421,7 @@ make docker-logs          # Tail logs
 
 Backend local dev — create `backend/.env`:
 ```
-DATABASE_URL=postgresql+asyncpg://foundrai:<password>@localhost:5432/foundrai
+DATABASE_URL=postgresql+asyncpg://foundrai:foundrai_dev@localhost:5432/foundrai
 APP_ENV=development
 DEBUG=false
 LOG_LEVEL=INFO
@@ -423,12 +431,17 @@ OLLAMA_BASE_URL=http://localhost:11434
 OLLAMA_MODEL=qwen3:4b
 ```
 
+Generate a JWT secret:
+```bash
+python3 -c "import secrets; print(secrets.token_hex(32))"
+```
+
 Frontend local dev — create `Frontend/.env.local`:
 ```
 NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
 ```
 
-For Docker/production variables see `.env.example` at the project root. All variables are documented with descriptions.
+For Docker/production variables see `.env.example` at the project root. All variables are documented with descriptions. When running in Docker, `OLLAMA_BASE_URL` should be `http://host.docker.internal:11434` since Ollama runs on the host machine.
 
 ---
 
@@ -438,11 +451,14 @@ For Docker/production variables see `.env.example` at the project root. All vari
 # Backend tests (310 tests, ≥70% coverage target)
 cd backend && poetry run pytest tests/ -v
 
-# Frontend tests
-cd Frontend && bun test --run
+# Backend unit tests only
+cd backend && poetry run pytest tests/unit/ -v
 
 # AI unit tests only
 cd backend && poetry run pytest tests/ai/ -v
+
+# Frontend type check
+cd Frontend && bun run typecheck
 ```
 
 ---
@@ -470,7 +486,7 @@ The system is designed with 7 formal correctness properties verified via propert
 - [x] Project + module CRUD API with 8 auto-seeded modules
 - [x] Artifact versioning API
 - [x] Workflow execution API + SSE streaming
-- [x] Next.js 15 frontend — all pages, auth, components, design system
+- [x] Vite + React 19 frontend — all routes, auth, components, design system
 - [x] Module workspace — SSE progress, artifact viewer/editor, version history
 - [x] Ollama client + BAAI/bge-base-en-v1.5 embedding pipeline
 - [x] FAISS index management (per-project)

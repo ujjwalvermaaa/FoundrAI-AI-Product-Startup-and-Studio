@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Activity, TrendingUp, TrendingDown, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
+import { AppPage } from "@/components/layout/page-shell";
 
 export const Route = createFileRoute("/_app/health")({
   component: HealthPage,
@@ -30,18 +31,24 @@ function HealthPage() {
   const priorities = [...DIMENSIONS].sort((a, b) => a.score - b.score).slice(0, 3);
 
   return (
-    <div className="max-w-6xl mx-auto p-6 md:p-8 space-y-8">
-      <div className="flex flex-wrap items-end justify-between gap-4">
+    <AppPage className="max-w-6xl">
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-wrap items-end justify-between gap-4"
+      >
         <div>
-          <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium">Diagnostic</div>
-          <h1 className="font-display text-3xl md:text-4xl font-semibold tracking-tight mt-1">Startup Health Score</h1>
+          <div className="text-xs uppercase tracking-[0.18em] text-primary/90 font-medium">Diagnostic</div>
+          <h1 className="font-display text-3xl md:text-4xl font-semibold tracking-tight mt-1">
+            Startup <span className="gradient-text">Health Score</span>
+          </h1>
           <p className="text-muted-foreground mt-2 max-w-xl">A live diagnostic that reads your artifacts and tells you where to focus this week.</p>
         </div>
         <Button variant="outline" asChild><Link to="/chat"><Sparkles className="size-4" /> Ask Foundr to improve</Link></Button>
-      </div>
+      </motion.div>
 
       <div className="grid lg:grid-cols-3 gap-4">
-        <Card className="lg:col-span-1 relative overflow-hidden">
+        <Card className="lg:col-span-1 relative overflow-hidden rounded-xl">
           <div className="absolute inset-0 gradient-brand opacity-10" />
           <CardContent className="p-8 relative text-center">
             <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Overall</div>
@@ -51,7 +58,7 @@ function HealthPage() {
           </CardContent>
         </Card>
 
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2 rounded-xl">
           <CardHeader><CardTitle className="font-display flex items-center gap-2"><Activity className="size-4 text-primary" /> Breakdown</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             {DIMENSIONS.map((d) => (
@@ -75,19 +82,25 @@ function HealthPage() {
         </Card>
       </div>
 
-      <Card>
+      <Card className="rounded-xl">
         <CardHeader><CardTitle className="font-display">Improve these three first</CardTitle></CardHeader>
         <CardContent className="grid md:grid-cols-3 gap-3">
-          {priorities.map((p) => (
-            <div key={p.key} className="rounded-lg border border-border/60 p-4 bg-card/40">
+          {priorities.map((p, i) => (
+            <motion.div
+              key={p.key}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 + i * 0.05 }}
+              className="rounded-xl border border-border/60 p-4 bg-card/40"
+            >
               <Badge variant="outline" className={color(p.score)}>{p.score}</Badge>
               <div className="font-display font-semibold mt-2">{p.key}</div>
               <div className="text-sm text-muted-foreground mt-1">{p.note}</div>
               <Button size="sm" variant="outline" className="mt-3" asChild><Link to="/roadmap">Add to roadmap</Link></Button>
-            </div>
+            </motion.div>
           ))}
         </CardContent>
       </Card>
-    </div>
+    </AppPage>
   );
 }

@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
+import { AppPage } from "@/components/layout/page-shell";
 import { useProjects } from "@/hooks/use-projects";
 import { mapBackendProjectToDisplay } from "@/lib/project-mapper";
 
@@ -37,11 +38,17 @@ function ProjectsIndex() {
   );
 
   return (
-    <div className="p-6 md:p-8 max-w-[1400px] mx-auto">
-      <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
+    <AppPage>
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-wrap items-end justify-between gap-4"
+      >
         <div>
-          <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium">Workspace</div>
-          <h1 className="font-display text-3xl md:text-4xl font-semibold tracking-tight mt-1">Projects</h1>
+          <div className="text-xs uppercase tracking-[0.18em] text-primary/90 font-medium">Workspace</div>
+          <h1 className="font-display text-3xl md:text-4xl font-semibold tracking-tight mt-1">
+            Your <span className="gradient-text">projects</span>
+          </h1>
           <p className="text-muted-foreground mt-1">All the startups you're building with FoundrAI.</p>
         </div>
         <div className="flex gap-2 items-center">
@@ -62,7 +69,7 @@ function ProjectsIndex() {
             <Link to="/projects/new"><Plus className="size-4" /> New project</Link>
           </Button>
         </div>
-      </div>
+      </motion.div>
 
       {isLoading && (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -139,6 +146,6 @@ function ProjectsIndex() {
           </Link>
         </div>
       )}
-    </div>
+    </AppPage>
   );
 }

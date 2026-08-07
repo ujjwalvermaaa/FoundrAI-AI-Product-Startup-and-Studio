@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, Map, Plus, CheckCircle2, Circle, Clock } from "lucide-react";
 import { motion } from "framer-motion";
+import { AppPage } from "@/components/layout/page-shell";
 
 export const Route = createFileRoute("/_app/roadmap")({
   component: RoadmapPage,
@@ -28,20 +29,26 @@ function icon(s: string) {
 
 function RoadmapPage() {
   return (
-    <div className="max-w-6xl mx-auto p-6 md:p-8 space-y-8">
-      <div className="flex flex-wrap items-end justify-between gap-4">
+    <AppPage className="max-w-6xl">
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-wrap items-end justify-between gap-4"
+      >
         <div>
-          <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium">Planning</div>
-          <h1 className="font-display text-3xl md:text-4xl font-semibold tracking-tight mt-1 flex items-center gap-3"><Map className="size-8 text-primary" /> AI Roadmap</h1>
+          <div className="text-xs uppercase tracking-[0.18em] text-primary/90 font-medium">Planning</div>
+          <h1 className="font-display text-3xl md:text-4xl font-semibold tracking-tight mt-1 flex items-center gap-3">
+            <Map className="size-8 text-primary" /> AI <span className="gradient-text">Roadmap</span>
+          </h1>
           <p className="text-muted-foreground mt-2 max-w-xl">8-week plan from validation to seed. Regenerate, edit or drag milestones — Foundr keeps it in sync with your artifacts.</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline"><Plus className="size-4" /> Add milestone</Button>
           <Button><Sparkles className="size-4" /> Regenerate</Button>
         </div>
-      </div>
+      </motion.div>
 
-      <Card>
+      <Card className="rounded-xl">
         <CardHeader><CardTitle className="font-display">Timeline</CardTitle></CardHeader>
         <CardContent>
           <ol className="relative border-l-2 border-dashed border-border ml-3 space-y-4">
@@ -54,7 +61,7 @@ function RoadmapPage() {
                 className="pl-6 relative"
               >
                 <span className="absolute -left-[9px] top-3 size-4 rounded-full bg-background ring-2 ring-border grid place-items-center">{icon(w.status)}</span>
-                <div className="rounded-lg border border-border/60 p-4 hover:border-primary/40 transition-colors">
+                <div className="rounded-xl border border-border/60 p-4 hover:border-primary/40 transition-colors">
                   <div className="flex items-center gap-2">
                     <Badge variant="outline" className="text-xs">Week {w.w}</Badge>
                     <span className="font-display font-semibold">{w.title}</span>
@@ -68,6 +75,6 @@ function RoadmapPage() {
           </ol>
         </CardContent>
       </Card>
-    </div>
+    </AppPage>
   );
 }

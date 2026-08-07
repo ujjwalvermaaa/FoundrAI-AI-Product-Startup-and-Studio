@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, Star, X } from "lucide-react";
 import { PublicNav, PublicFooter } from "@/components/public-chrome";
+import { PublicPage, PageHero } from "@/components/layout/page-shell";
 
 export const Route = createFileRoute("/pricing")({
   component: PricingPage,
@@ -36,97 +38,143 @@ function Cell({ v }: { v: boolean | string }) {
 
 function PricingPage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <PublicPage>
       <PublicNav />
-      <section className="pt-32 pb-16 text-center relative overflow-hidden">
-        <div className="absolute inset-0 grid-bg opacity-20" />
-        <div className="relative max-w-3xl mx-auto px-6">
-          <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium">Pricing</div>
-          <h1 className="font-display text-5xl md:text-6xl font-semibold tracking-tight mt-3">
+      <PageHero
+        eyebrow="Pricing"
+        title={
+          <>
             Priced for <span className="gradient-text">first-check founders.</span>
-          </h1>
-          <p className="text-muted-foreground mt-4 text-lg">Free while you explore. Fair when you scale. Never per-seat gouging.</p>
-        </div>
-      </section>
+          </>
+        }
+        description="Free while you explore. Fair when you scale. Never per-seat gouging."
+      />
 
       <section className="pb-16 max-w-6xl mx-auto px-6">
         <div className="grid md:grid-cols-3 gap-4">
-          {tiers.map((t) => (
-            <Card key={t.name} className={t.featured ? "border-primary/50 shadow-glow relative" : ""}>
-              {t.featured && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <Badge className="gradient-brand text-white border-transparent gap-1"><Star className="size-3" /> Most popular</Badge>
-                </div>
-              )}
-              <CardContent className="p-6">
-                <div className="font-display font-semibold">{t.name}</div>
-                <div className="mt-2 flex items-baseline gap-1">
-                  <span className="font-display text-4xl font-semibold">{t.price}</span>
-                  {t.price !== "Free" && <span className="text-muted-foreground text-sm">/ month</span>}
-                </div>
-                <p className="text-sm text-muted-foreground mt-2">{t.desc}</p>
-                <ul className="mt-6 space-y-2.5 text-sm">
-                  {t.features.map((f) => <li key={f} className="flex items-center gap-2"><Check className="size-4 text-primary" /> {f}</li>)}
-                </ul>
-                <Button className="w-full mt-6" variant={t.featured ? "default" : "outline"} asChild>
-                  <Link to="/auth/signup">{t.cta}</Link>
-                </Button>
-              </CardContent>
-            </Card>
+          {tiers.map((t, i) => (
+            <motion.div
+              key={t.name}
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.45, delay: i * 0.08 }}
+            >
+              <Card className={t.featured ? "border-primary/50 shadow-glow relative h-full hologram-edge" : "h-full"}>
+                {t.featured && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
+                    <Badge className="gradient-brand text-white border-transparent gap-1 rounded-xl shadow-glow">
+                      <Star className="size-3" /> Most popular
+                    </Badge>
+                  </div>
+                )}
+                <CardContent className="p-6">
+                  <div className="text-[10px] uppercase tracking-[0.22em] text-primary/90 font-medium">{t.name}</div>
+                  <div className="mt-3 flex items-baseline gap-1">
+                    <span className="font-display text-4xl font-semibold">{t.price}</span>
+                    {t.price !== "Free" && <span className="text-muted-foreground text-sm">/ month</span>}
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-2">{t.desc}</p>
+                  <ul className="mt-6 space-y-2.5 text-sm">
+                    {t.features.map((f) => (
+                      <li key={f} className="flex items-center gap-2">
+                        <Check className="size-4 text-primary shrink-0" /> {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <Button
+                    className="w-full mt-6 rounded-xl"
+                    variant={t.featured ? "default" : "outline"}
+                    asChild
+                  >
+                    <Link to="/auth/signup">{t.cta}</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
         </div>
       </section>
 
       <section className="pb-24 max-w-5xl mx-auto px-6">
-        <div className="text-center mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-8"
+        >
+          <div className="text-[10px] uppercase tracking-[0.22em] text-primary/90 font-medium mb-2">Compare</div>
           <h2 className="font-display text-3xl font-semibold tracking-tight">Compare plans</h2>
-        </div>
-        <Card>
-          <CardContent className="p-0 overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border">
-                  <th className="text-left p-4 font-medium text-muted-foreground">Feature</th>
-                  {tiers.map((t) => (
-                    <th key={t.name} className="p-4 text-center font-display">{t.name}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map(([label, a, b, c]) => (
-                  <tr key={label} className="border-b border-border/60 last:border-0">
-                    <td className="p-3 text-muted-foreground">{label}</td>
-                    <td className="p-3 text-center"><Cell v={a} /></td>
-                    <td className="p-3 text-center"><Cell v={b} /></td>
-                    <td className="p-3 text-center"><Cell v={c} /></td>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.45 }}
+        >
+          <Card>
+            <CardContent className="p-0 overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border/60">
+                    <th className="text-left p-4 font-medium text-muted-foreground">Feature</th>
+                    {tiers.map((t) => (
+                      <th key={t.name} className="p-4 text-center font-display">{t.name}</th>
+                    ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </CardContent>
-        </Card>
+                </thead>
+                <tbody>
+                  {rows.map(([label, a, b, c]) => (
+                    <tr key={label} className="border-b border-border/40 last:border-0">
+                      <td className="p-3 text-muted-foreground">{label}</td>
+                      <td className="p-3 text-center"><Cell v={a} /></td>
+                      <td className="p-3 text-center"><Cell v={b} /></td>
+                      <td className="p-3 text-center"><Cell v={c} /></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </CardContent>
+          </Card>
+        </motion.div>
       </section>
 
       <section className="pb-24 max-w-3xl mx-auto px-6">
-        <h2 className="font-display text-3xl font-semibold tracking-tight text-center mb-8">Questions</h2>
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-8"
+        >
+          <div className="text-[10px] uppercase tracking-[0.22em] text-primary/90 font-medium mb-2">FAQ</div>
+          <h2 className="font-display text-3xl font-semibold tracking-tight">Questions</h2>
+        </motion.div>
         <div className="space-y-3">
           {[
             ["Do I need a credit card to start?", "No — Explorer is free forever, no card required."],
             ["Can I cancel any time?", "Yes. Cancel from Settings, no questions asked."],
             ["What happens to my projects if I downgrade?", "Everything stays — you'll just hit generation and module limits."],
             ["Do you offer non-profit or student pricing?", "Yes. Email hello@foundrai.app."],
-          ].map(([q, a]) => (
-            <details key={q} className="group rounded-xl border border-border/60 p-4 bg-card/40">
+          ].map(([q, a], i) => (
+            <motion.details
+              key={q}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: i * 0.05 }}
+              className="group rounded-2xl border border-border/60 p-4 glass-depth hologram-edge"
+            >
               <summary className="cursor-pointer font-medium list-none flex items-center justify-between">
-                {q}<span className="text-muted-foreground group-open:rotate-45 transition-transform">+</span>
+                {q}
+                <span className="text-muted-foreground group-open:rotate-45 transition-transform">+</span>
               </summary>
-              <p className="text-sm text-muted-foreground mt-2">{a}</p>
-            </details>
+              <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{a}</p>
+            </motion.details>
           ))}
         </div>
       </section>
 
       <PublicFooter />
-    </div>
+    </PublicPage>
   );
 }

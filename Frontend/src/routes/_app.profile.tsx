@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Camera, Github, Twitter, Linkedin, LogOut, Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
+import { AppPage } from "@/components/layout/page-shell";
 
 export const Route = createFileRoute("/_app/profile")({
   component: ProfilePage,
@@ -50,14 +52,16 @@ function ProfilePage() {
   }
 
   return (
-    <div className="p-6 md:p-8 max-w-[1000px] mx-auto">
-      <div className="mb-8">
-        <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium">Account</div>
-        <h1 className="font-display text-3xl md:text-4xl font-semibold tracking-tight mt-1">Profile</h1>
+    <AppPage className="max-w-[1000px]">
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+        <div className="text-xs uppercase tracking-[0.18em] text-primary/90 font-medium">Account</div>
+        <h1 className="font-display text-3xl md:text-4xl font-semibold tracking-tight mt-1">
+          Your <span className="gradient-text">profile</span>
+        </h1>
         <p className="text-muted-foreground mt-1">How you show up in the studio.</p>
-      </div>
+      </motion.div>
 
-      <Card className="overflow-hidden mb-4">
+      <Card className="overflow-hidden rounded-xl">
         <div className="h-32 gradient-brand" />
         <CardContent className="p-6 -mt-14">
           <div className="flex items-end gap-4">
@@ -79,7 +83,7 @@ function ProfilePage() {
       </Card>
 
       <div className="grid md:grid-cols-2 gap-4">
-        <Card>
+        <Card className="rounded-xl">
           <CardContent className="p-6 space-y-4">
             <div className="font-display font-semibold">Details</div>
             <form onSubmit={handleSave} className="space-y-4">
@@ -98,7 +102,7 @@ function ProfilePage() {
               <div className="space-y-1.5">
                 <Label>Bio</Label>
                 <textarea
-                  className="w-full min-h-24 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  className="w-full min-h-24 rounded-xl border border-input bg-background px-3 py-2 text-sm"
                   defaultValue="Building an AI-native studio for founders."
                 />
               </div>
@@ -111,7 +115,7 @@ function ProfilePage() {
         </Card>
 
         <div className="space-y-4">
-          <Card>
+          <Card className="rounded-xl">
             <CardContent className="p-6 space-y-3">
               <div className="font-display font-semibold">Preferences</div>
               <Row label="Language" value="English (US)" />
@@ -119,7 +123,7 @@ function ProfilePage() {
               <Row label="Startup stage" value="Building MVP" />
             </CardContent>
           </Card>
-          <Card>
+          <Card className="rounded-xl">
             <CardContent className="p-6 space-y-3">
               <div className="font-display font-semibold">Connected</div>
               <ConnectRow icon={Github} name="GitHub" connected />
@@ -127,7 +131,7 @@ function ProfilePage() {
               <ConnectRow icon={Linkedin} name="LinkedIn" connected />
             </CardContent>
           </Card>
-          <Card>
+          <Card className="rounded-xl">
             <CardContent className="p-6 flex items-center justify-between">
               <div>
                 <div className="font-medium text-sm">Sign out everywhere</div>
@@ -150,7 +154,7 @@ function ProfilePage() {
           </Card>
         </div>
       </div>
-    </div>
+    </AppPage>
   );
 }
 

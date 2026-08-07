@@ -98,7 +98,7 @@ function Login() {
       </form>
       <div className="relative my-5">
         <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-border" /></div>
-        <div className="relative flex justify-center text-xs text-muted-foreground"><span className="bg-background px-3">or</span></div>
+        <div className="relative flex justify-center text-xs text-muted-foreground"><span className="bg-card/80 px-3 backdrop-blur-sm">or</span></div>
       </div>
       <Button
         type="button"
@@ -129,47 +129,50 @@ export function AuthShell({
   footer?: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen grid lg:grid-cols-2">
+    <div className="relative min-h-screen grid lg:grid-cols-2 overflow-hidden">
       <div className="hidden lg:block relative overflow-hidden bg-sidebar">
-        <div className="absolute inset-0 grid-bg opacity-40" />
-        <div className="absolute -top-40 -left-40 size-[520px] rounded-full gradient-brand opacity-40 blur-3xl" />
-        <div className="absolute bottom-0 right-0 size-[420px] rounded-full bg-brand-glow opacity-30 blur-3xl" />
+        <div className="absolute inset-0 mesh-ambient" />
+        <div className="absolute inset-0 grid-bg opacity-30" />
+        <div className="absolute -top-40 -left-40 size-[520px] rounded-full gradient-brand opacity-35 blur-3xl" />
+        <div className="absolute bottom-0 right-0 size-[420px] rounded-full bg-brand-glow opacity-25 blur-3xl" />
+        <div className="scan-line absolute inset-0 opacity-25" />
         <div className="relative p-10 h-full flex flex-col">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="size-8 rounded-lg overflow-hidden shadow-glow shrink-0">
-              <img src="/founder-bot.jpg" alt="FoundrAI" className="size-full object-cover" />
+          <Link to="/" className="flex items-center gap-2.5">
+            <div className="relative size-9">
+              <div className="absolute inset-0 rounded-xl pulse-core bg-primary/30 blur-md" />
+              <div className="relative size-9 rounded-xl overflow-hidden shadow-glow ring-1 ring-primary/30">
+                <img src="/founder-bot.jpg" alt="FoundrAI" className="size-full object-cover" />
+              </div>
             </div>
             <span className="font-display text-lg font-semibold">FoundrAI</span>
           </Link>
-          <div className="mt-auto max-w-md">
-            <div className="font-display text-3xl font-semibold tracking-tight">
-              "FoundrAI turned my Sunday afternoon idea into a Monday morning
-              company."
+          <div className="mt-auto max-w-md rounded-2xl glass-depth hologram-edge p-6">
+            <div className="text-[10px] uppercase tracking-[0.2em] text-primary/80 mb-3">Founder signal</div>
+            <div className="font-display text-2xl md:text-3xl font-semibold tracking-tight leading-snug">
+              "FoundrAI turned my Sunday afternoon idea into a Monday morning company."
             </div>
-            <div className="mt-4 text-sm text-muted-foreground">
-              Maya Chen — founder, Kelp
-            </div>
+            <div className="mt-4 text-sm text-muted-foreground">Maya Chen — founder, Kelp</div>
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-center p-6 md:p-10">
-        <div className="w-full max-w-sm">
-          <Link to="/" className="lg:hidden flex items-center gap-2 mb-8">
-            <div className="size-8 rounded-lg overflow-hidden shadow-glow shrink-0">
-              <img src="/founder-bot.jpg" alt="FoundrAI" className="size-full object-cover" />
-            </div>
-            <span className="font-display text-lg font-semibold">FoundrAI</span>
-          </Link>
-          <h1 className="font-display text-3xl font-semibold tracking-tight">
-            {title}
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1.5">{subtitle}</p>
-          <div className="mt-8">{children}</div>
-          {footer && (
-            <div className="text-sm text-muted-foreground mt-6 text-center">
-              {footer}
-            </div>
-          )}
+      <div className="relative flex items-center justify-center p-6 md:p-10">
+        <div className="pointer-events-none absolute inset-0 mesh-ambient opacity-50 lg:opacity-30" />
+        <div className="relative w-full max-w-sm rounded-2xl glass-depth hologram-edge p-6 md:p-8">
+          <div className="scan-line absolute inset-0 opacity-20 rounded-2xl" />
+          <div className="relative z-10">
+            <Link to="/" className="lg:hidden flex items-center gap-2.5 mb-8">
+              <div className="size-8 rounded-lg overflow-hidden shadow-glow ring-1 ring-primary/30 shrink-0">
+                <img src="/founder-bot.jpg" alt="FoundrAI" className="size-full object-cover" />
+              </div>
+              <span className="font-display text-lg font-semibold">FoundrAI</span>
+            </Link>
+            <h1 className="font-display text-3xl font-semibold tracking-tight">{title}</h1>
+            <p className="text-sm text-muted-foreground mt-1.5">{subtitle}</p>
+            <div className="mt-8">{children}</div>
+            {footer && (
+              <div className="text-sm text-muted-foreground mt-6 text-center">{footer}</div>
+            )}
+          </div>
         </div>
       </div>
     </div>

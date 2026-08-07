@@ -12,6 +12,8 @@ import { Sun, Moon, Monitor, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
+import { AppPage } from "@/components/layout/page-shell";
 
 export const Route = createFileRoute("/_app/settings")({
   component: SettingsPage,
@@ -51,11 +53,13 @@ function SettingsPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 md:p-8">
-      <div className="mb-8">
-        <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium">Preferences</div>
-        <h1 className="font-display text-3xl md:text-4xl font-semibold tracking-tight mt-1">Settings</h1>
-      </div>
+    <AppPage className="max-w-4xl">
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+        <div className="text-xs uppercase tracking-[0.18em] text-primary/90 font-medium">Preferences</div>
+        <h1 className="font-display text-3xl md:text-4xl font-semibold tracking-tight mt-1">
+          <span className="gradient-text">Settings</span>
+        </h1>
+      </motion.div>
 
       <Tabs defaultValue="profile" className="space-y-6">
         <TabsList>
@@ -66,9 +70,8 @@ function SettingsPage() {
           <TabsTrigger value="workspace">Workspace</TabsTrigger>
         </TabsList>
 
-        {/* ── Profile ── */}
         <TabsContent value="profile">
-          <Card>
+          <Card className="rounded-xl">
             <CardHeader><CardTitle className="font-display">Profile</CardTitle></CardHeader>
             <CardContent>
               <form onSubmit={handleSaveProfile} className="space-y-5">
@@ -111,9 +114,8 @@ function SettingsPage() {
           </Card>
         </TabsContent>
 
-        {/* ── Appearance ── */}
         <TabsContent value="appearance">
-          <Card>
+          <Card className="rounded-xl">
             <CardHeader><CardTitle className="font-display">Appearance</CardTitle></CardHeader>
             <CardContent className="space-y-5">
               <div>
@@ -121,7 +123,7 @@ function SettingsPage() {
                 <div className="grid grid-cols-3 gap-3 mt-2">
                   {themes.map((t) => (
                     <button key={t.id} type="button" onClick={() => setTheme(t.id)}
-                      className={cn("border rounded-lg p-4 flex flex-col items-center gap-2 transition-all",
+                      className={cn("border rounded-xl p-4 flex flex-col items-center gap-2 transition-all",
                         theme === t.id ? "border-primary bg-accent/50 shadow-glow" : "border-border hover:border-primary/40")}>
                       <t.icon className="size-5" />
                       <span className="text-sm font-medium">{t.label}</span>
@@ -141,9 +143,8 @@ function SettingsPage() {
           </Card>
         </TabsContent>
 
-        {/* ── AI ── */}
         <TabsContent value="ai">
-          <Card>
+          <Card className="rounded-xl">
             <CardHeader><CardTitle className="font-display">AI configuration</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between py-3 border-b border-border">
@@ -162,9 +163,8 @@ function SettingsPage() {
           </Card>
         </TabsContent>
 
-        {/* ── Billing ── */}
         <TabsContent value="billing">
-          <Card>
+          <Card className="rounded-xl">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -178,9 +178,8 @@ function SettingsPage() {
           </Card>
         </TabsContent>
 
-        {/* ── Workspace ── */}
         <TabsContent value="workspace">
-          <Card>
+          <Card className="rounded-xl">
             <CardHeader><CardTitle className="font-display">Workspace</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-1.5"><Label>Workspace name</Label><Input defaultValue={user?.full_name ? `${user.full_name.split(" ")[0]}'s Studio` : "My Studio"} /></div>
@@ -190,6 +189,6 @@ function SettingsPage() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+    </AppPage>
   );
 }

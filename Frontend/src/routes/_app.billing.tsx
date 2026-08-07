@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, Sparkles, CreditCard, Download } from "lucide-react";
+import { motion } from "framer-motion";
+import { AppPage } from "@/components/layout/page-shell";
 
 export const Route = createFileRoute("/_app/billing")({
   component: BillingPage,
@@ -22,14 +24,16 @@ const INVOICES = [
 
 function BillingPage() {
   return (
-    <div className="max-w-6xl mx-auto p-6 md:p-8 space-y-8">
-      <div>
-        <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium">Account</div>
-        <h1 className="font-display text-3xl md:text-4xl font-semibold tracking-tight mt-1">Billing & credits</h1>
+    <AppPage className="max-w-6xl">
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+        <div className="text-xs uppercase tracking-[0.18em] text-primary/90 font-medium">Account</div>
+        <h1 className="font-display text-3xl md:text-4xl font-semibold tracking-tight mt-1">
+          Billing & <span className="gradient-text">credits</span>
+        </h1>
         <p className="text-muted-foreground mt-2">Manage your plan, AI credits and invoices.</p>
-      </div>
+      </motion.div>
 
-      <Card>
+      <Card className="rounded-xl">
         <CardHeader><CardTitle className="font-display flex items-center gap-2"><Sparkles className="size-4 text-primary" /> AI credits</CardTitle></CardHeader>
         <CardContent>
           <div className="flex flex-wrap items-end justify-between gap-4">
@@ -48,39 +52,46 @@ function BillingPage() {
       <div>
         <h2 className="font-display text-xl font-semibold mb-4">Plans</h2>
         <div className="grid md:grid-cols-3 gap-4">
-          {PLANS.map((p) => (
-            <Card key={p.id} className={p.current ? "border-primary/60 shadow-glow" : ""}>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="font-display">{p.name}</CardTitle>
-                  {p.current && <Badge>Current</Badge>}
-                </div>
-                <div className="mt-2 flex items-baseline gap-1">
-                  <span className="text-3xl font-display font-semibold">${p.price}</span>
-                  <span className="text-sm text-muted-foreground">/mo</span>
-                </div>
-                <div className="text-xs text-muted-foreground">{p.credits} credits / month</div>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <ul className="space-y-1.5 text-sm">
-                  {p.features.map((f) => (
-                    <li key={f} className="flex items-center gap-2"><Check className="size-3.5 text-primary" /> {f}</li>
-                  ))}
-                </ul>
-                <Button variant={p.current ? "outline" : "default"} className="w-full">
-                  {p.current ? "Manage" : `Upgrade to ${p.name}`}
-                </Button>
-              </CardContent>
-            </Card>
+          {PLANS.map((p, i) => (
+            <motion.div
+              key={p.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.06 }}
+            >
+              <Card className={`rounded-xl h-full ${p.current ? "border-primary/60 shadow-glow" : ""}`}>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="font-display">{p.name}</CardTitle>
+                    {p.current && <Badge>Current</Badge>}
+                  </div>
+                  <div className="mt-2 flex items-baseline gap-1">
+                    <span className="text-3xl font-display font-semibold">${p.price}</span>
+                    <span className="text-sm text-muted-foreground">/mo</span>
+                  </div>
+                  <div className="text-xs text-muted-foreground">{p.credits} credits / month</div>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <ul className="space-y-1.5 text-sm">
+                    {p.features.map((f) => (
+                      <li key={f} className="flex items-center gap-2"><Check className="size-3.5 text-primary" /> {f}</li>
+                    ))}
+                  </ul>
+                  <Button variant={p.current ? "outline" : "default"} className="w-full">
+                    {p.current ? "Manage" : `Upgrade to ${p.name}`}
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
         </div>
       </div>
 
-      <Card>
+      <Card className="rounded-xl">
         <CardHeader><CardTitle className="font-display flex items-center gap-2"><CreditCard className="size-4" /> Payment method</CardTitle></CardHeader>
         <CardContent className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-14 rounded-md gradient-brand grid place-items-center text-white text-xs font-bold">VISA</div>
+            <div className="h-10 w-14 rounded-xl gradient-brand grid place-items-center text-white text-xs font-bold">VISA</div>
             <div>
               <div className="text-sm font-medium">•••• •••• •••• 4242</div>
               <div className="text-xs text-muted-foreground">Expires 08 / 2028</div>
@@ -90,7 +101,7 @@ function BillingPage() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="rounded-xl">
         <CardHeader><CardTitle className="font-display">Invoices</CardTitle></CardHeader>
         <CardContent className="divide-y divide-border">
           {INVOICES.map((inv) => (
@@ -108,6 +119,6 @@ function BillingPage() {
           ))}
         </CardContent>
       </Card>
-    </div>
+    </AppPage>
   );
 }
